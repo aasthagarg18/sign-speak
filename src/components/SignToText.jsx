@@ -165,7 +165,7 @@ export default function SignToText({
   };
 
   return (
-    <div className="sign-to-text-container" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.35fr) minmax(0, 1fr)', gap: '24px' }}>
+    <div className="sign-to-text-container workbench-grid">
       {/* Left Column: Webcam Video Feed + Hand Landmarks */}
       <div
         className="card"
@@ -316,12 +316,19 @@ export default function SignToText({
               >
                 📷
               </div>
-              <div style={{ color: 'var(--color-warm-ivory)', fontWeight: 700, fontSize: '1.1rem', marginBottom: '4px' }}>
+              <div style={{ color: 'var(--color-warm-ivory)', fontWeight: 700, fontSize: '1.05rem', marginBottom: '6px' }}>
                 {webcamError || 'Camera Standby'}
               </div>
-              <div style={{ fontSize: '0.8125rem', maxWidth: '340px', color: 'var(--color-sage)', lineHeight: 1.5 }}>
-                Click "Start Camera" above to enable live gesture tracking, or test with the gesture bar below.
-              </div>
+              <p style={{ fontSize: '0.8125rem', maxWidth: '340px', color: 'var(--color-sage)', lineHeight: 1.5, margin: '0 0 12px' }}>
+                Click below to begin real-time ISL recognition or use the gesture buttons below.
+              </p>
+              <button
+                className="btn btn-primary btn-sm"
+                onClick={startCamera}
+                style={{ backgroundColor: 'var(--color-rust)', color: '#FFFDF8', padding: '8px 18px', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+              >
+                <Camera size={14} /> Start Camera
+              </button>
             </div>
           )}
 
@@ -700,21 +707,19 @@ export default function SignToText({
         {/* Engine Transparency Notice */}
         <div
           style={{
-            padding: '12px 16px',
+            padding: '10px 14px',
             borderRadius: 'var(--radius-sm)',
             backgroundColor: 'var(--color-muted-sage)',
             border: '1px solid var(--color-sage)',
             fontSize: '0.75rem',
             color: 'var(--color-deep-forest)',
             display: 'flex',
-            alignItems: 'flex-start',
-            gap: '10px'
+            alignItems: 'center',
+            gap: '8px'
           }}
         >
-          <Sparkles size={16} color="var(--color-forest-green)" style={{ flexShrink: 0, marginTop: '2px' }} />
-          <div>
-            <strong>Client-Side Vision AI:</strong> MediaPipe neural keypoint models run locally inside your browser at 30+ FPS. No video stream or personal image data is ever uploaded or stored remotely.
-          </div>
+          <Sparkles size={14} color="var(--color-forest-green)" style={{ flexShrink: 0 }} />
+          <span><strong>100% Client-Side Privacy:</strong> Computer vision runs locally inside your browser at 30+ FPS. No video is ever stored or transmitted.</span>
         </div>
       </div>
     </div>

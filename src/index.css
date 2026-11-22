@@ -2,7 +2,7 @@
    SIGNSPEAK — VINTAGE BOTANICAL DESIGN SYSTEM
    Palette: Warm Ivory, Soft Ivory, Forest Green, Rust, Terracotta, Sage, Olive, Beige
    Typography: Playfair Display (Headings) + DM Sans (Body/UI)
-   WCAG 2.1 AAA Compliant • Fully Responsive
+   WCAG 2.1 AAA Compliant • Fully Responsive (320px to 4K)
    ===================================================================== */
 
 :root {
@@ -33,7 +33,7 @@
   --border-strong: var(--color-taupe);
 
   --text-main: var(--color-charcoal);
-  --text-muted: #6C7067;
+  --text-muted: #646860;
   --text-light: #8E8A81;
   --text-inverse: var(--color-warm-ivory);
 
@@ -66,7 +66,7 @@
   --transition-normal: 0.28s var(--ease-soft);
 }
 
-/* Base Reset */
+/* Base Reset & Box Model */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -77,6 +77,7 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   background-color: var(--color-warm-ivory);
+  overflow-x: hidden;
 }
 
 body {
@@ -87,6 +88,7 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 /* Editorial Typography */
@@ -96,16 +98,19 @@ h1, h2, h3, h4, .serif-heading {
   font-weight: 700;
   line-height: 1.25;
   letter-spacing: -0.015em;
+  overflow-wrap: break-word;
 }
 
-h1 { font-size: clamp(2rem, 4vw, 3.25rem); }
-h2 { font-size: clamp(1.6rem, 3vw, 2.4rem); }
-h3 { font-size: clamp(1.25rem, 2vw, 1.75rem); }
-h4 { font-size: 1.15rem; }
+h1 { font-size: clamp(1.85rem, 4vw, 3.25rem); }
+h2 { font-size: clamp(1.45rem, 3vw, 2.3rem); }
+h3 { font-size: clamp(1.15rem, 2vw, 1.65rem); }
+h4 { font-size: 1.05rem; }
 
 p {
   color: var(--text-main);
-  font-size: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  overflow-wrap: break-word;
 }
 
 /* Links */
@@ -116,6 +121,108 @@ a {
 }
 a:hover {
   color: var(--color-rust);
+}
+
+/* Responsive Containers */
+.container {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 0 14px;
+  }
+}
+
+/* =====================================================================
+   RESPONSIVE WORKBENCH GRID SYSTEM (TABLET & MOBILE FIX)
+   ===================================================================== */
+.workbench-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .workbench-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .workbench-grid {
+    gap: 16px !important;
+  }
+}
+
+/* Responsive Viewports */
+.webcam-viewport {
+  position: relative;
+  height: 400px;
+  background-color: var(--color-deep-forest);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .webcam-viewport {
+    height: 360px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .webcam-viewport {
+    height: 300px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .webcam-viewport {
+    height: 260px !important;
+  }
+}
+
+/* Modality Switcher Pills (Scrollable on small screens) */
+.modality-switcher-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--color-soft-ivory);
+  padding: 4px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--color-beige);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+
+@media (max-width: 640px) {
+  .modality-switcher-bar {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 3px;
+  }
+  .modality-switcher-bar .btn {
+    padding: 6px 10px !important;
+    font-size: 0.75rem !important;
+    flex-shrink: 0;
+  }
 }
 
 /* =====================================================================
@@ -131,6 +238,7 @@ a:hover {
   font-weight: 600;
   line-height: 1;
   padding: 10px 18px;
+  min-height: 40px;
   border-radius: var(--radius-pill);
   cursor: pointer;
   transition: all var(--transition-fast);
@@ -138,6 +246,11 @@ a:hover {
   user-select: none;
   white-space: nowrap;
   letter-spacing: 0.01em;
+  text-decoration: none;
+}
+
+.btn:active {
+  transform: scale(0.98);
 }
 
 .btn:focus-visible {
@@ -210,17 +323,20 @@ a:hover {
 .btn-icon {
   width: 38px;
   height: 38px;
+  min-height: 38px;
   padding: 0;
   border-radius: 50%;
 }
 
 .btn-sm {
   padding: 6px 12px;
+  min-height: 32px;
   font-size: 0.75rem;
 }
 
 .btn-lg {
   padding: 14px 26px;
+  min-height: 48px;
   font-size: 1rem;
 }
 
@@ -234,6 +350,7 @@ a:hover {
   box-shadow: var(--shadow-sm);
   transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
   position: relative;
+  overflow: hidden;
 }
 
 .card:hover, .botanical-card:hover {
@@ -245,19 +362,6 @@ a:hover {
   transform: translateY(-3px);
   border-color: var(--color-sage);
   box-shadow: var(--shadow-md);
-}
-
-/* Dark Green Panel (for contrast sections) */
-.card-deep-forest {
-  background-color: var(--color-deep-forest);
-  color: var(--color-warm-ivory);
-  border: 1px solid rgba(168, 180, 154, 0.2);
-}
-
-/* Soft Sage Card */
-.card-sage {
-  background-color: var(--color-muted-sage);
-  border: 1px solid var(--color-sage);
 }
 
 /* =====================================================================
@@ -273,6 +377,7 @@ a:hover {
   border-radius: var(--radius-pill);
   line-height: 1;
   letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
 .badge-forest {
@@ -291,12 +396,6 @@ a:hover {
   background-color: var(--color-muted-sage);
   color: var(--color-forest-green);
   border: 1px solid var(--color-sage);
-}
-
-.badge-olive {
-  background-color: rgba(119, 122, 69, 0.12);
-  color: var(--color-olive);
-  border: 1px solid rgba(119, 122, 69, 0.3);
 }
 
 .badge-beige {
@@ -318,6 +417,7 @@ a:hover {
   font-size: 0.875rem;
   outline: none;
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  width: 100%;
 }
 
 .form-control:focus {
@@ -326,21 +426,16 @@ a:hover {
 }
 
 /* =====================================================================
-   NAVIGATION BAR (VINTAGE BOTANICAL)
+   NAVIGATION BAR
    ===================================================================== */
 .botanical-navbar {
   position: sticky;
   top: 0;
   z-index: 900;
-  background-color: rgba(248, 245, 237, 0.94);
+  background-color: rgba(248, 245, 237, 0.95);
   backdrop-filter: blur(14px);
   border-bottom: 1.5px solid var(--color-beige);
   transition: background-color var(--transition-fast);
-}
-
-.botanical-navbar.dark-nav {
-  background-color: rgba(28, 48, 39, 0.96);
-  border-bottom: 1px solid rgba(168, 180, 154, 0.2);
 }
 
 .nav-link {
@@ -356,6 +451,7 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;
 }
 
 .nav-link:hover {
@@ -369,30 +465,55 @@ a:hover {
   font-weight: 600;
 }
 
+@media (max-width: 1024px) {
+  .nav-desktop-links {
+    display: none !important;
+  }
+
+  .nav-mobile-toggle {
+    display: flex !important;
+  }
+}
+
 /* =====================================================================
    ANIMATIONS & MICRO-INTERACTIONS
    ===================================================================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.4s var(--ease-soft) forwards;
+}
+
 @keyframes floatGentle {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-8px) rotate(1.5deg); }
+  50% { transform: translateY(-6px) rotate(1deg); }
 }
 
 .animate-float {
-  animation: floatGentle 6s infinite ease-in-out;
+  animation: floatGentle 5s infinite ease-in-out;
 }
 
-@keyframes pulseLeaf {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.05); opacity: 0.85; }
+@keyframes pulseGlow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.65; transform: scale(1.05); }
 }
 
-.pulse-leaf {
-  animation: pulseLeaf 3s infinite ease-in-out;
+.pulse {
+  animation: pulseGlow 2.5s infinite ease-in-out;
 }
 
 @keyframes rippleMic {
   0% { transform: scale(0.95); opacity: 0.8; }
-  100% { transform: scale(1.6); opacity: 0; }
+  100% { transform: scale(1.5); opacity: 0; }
 }
 
 .mic-ripple {
@@ -457,36 +578,4 @@ html.dyslexic-font body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-forest-green);
-}
-
-/* =====================================================================
-   RESPONSIVE LAYOUTS
-   ===================================================================== */
-.container {
-  width: 100%;
-  max-width: 1320px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
-
-@media (max-width: 1024px) {
-  .hero-grid,
-  .dashboard-grid,
-  .feature-grid-2col {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-@media (max-width: 768px) {
-  .container {
-    padding: 0 16px;
-  }
-
-  .nav-desktop-links {
-    display: none !important;
-  }
-
-  .nav-mobile-toggle {
-    display: flex !important;
-  }
 }

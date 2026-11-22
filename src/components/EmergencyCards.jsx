@@ -143,7 +143,7 @@ export default function EmergencyCards({ speechHook }) {
       </div>
 
       {/* Grid of Emergency Action Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.35fr) minmax(0, 1.15fr)', gap: '24px' }}>
+      <div className="workbench-grid">
         <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
           {EMERGENCY_CARDS.map(card => {
             const Icon = card.icon;

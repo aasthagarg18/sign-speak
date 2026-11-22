@@ -11,6 +11,7 @@ import TwoWayConversation from './components/TwoWayConversation';
 import Signopedia from './components/Signopedia';
 import PracticeStudio from './components/PracticeStudio';
 import EmergencyCards from './components/EmergencyCards';
+import AboutSection from './components/AboutSection';
 import { useSpeechSynthesis } from './hooks/useSpeechSynthesis';
 import { Camera, Type, Mic, Sparkles } from 'lucide-react';
 import { BotanicalBranch } from './components/BotanicalDecorations';

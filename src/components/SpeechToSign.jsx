@@ -40,7 +40,7 @@ export default function SpeechToSign({ speechHook }) {
   ];
 
   return (
-    <div className="speech-to-sign-container" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.25fr) minmax(0, 1.35fr)', gap: '24px' }}>
+    <div className="speech-to-sign-container workbench-grid">
       {/* Left Column: Voice Recording & Live Subtitle Stream */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         {/* Microphone Stream Card */}

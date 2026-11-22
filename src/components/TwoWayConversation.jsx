@@ -112,9 +112,9 @@ export default function TwoWayConversation({ speechHook }) {
       </div>
 
       {/* Main 2-Way Layout */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.35fr) minmax(0, 1.15fr)', gap: '24px' }}>
+      <div className="workbench-grid">
         {/* Left Column: Live Split Dialogue Stream */}
-        <div className="card" style={{ padding: '22px', display: 'flex', flexDirection: 'column', height: '620px', borderRadius: 'var(--radius-lg)' }}>
+        <div className="card" style={{ padding: '22px', display: 'flex', flexDirection: 'column', minHeight: '420px', maxHeight: '620px', borderRadius: 'var(--radius-lg)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', borderBottom: '1px solid var(--color-beige)', paddingBottom: '12px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <div

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   Sparkles, Camera, Volume2, Eye, History, ShieldAlert,
-  MessageSquare, BookOpen, Award, Menu, X, LayoutDashboard, Home
+  MessageSquare, BookOpen, Award, Menu, X, LayoutDashboard, Home, Users
 } from 'lucide-react';
 import { BrandLeafHand, BotanicalBranch } from './BotanicalDecorations';
 import SignToSpeechControls from './SignToSpeechControls';
@@ -25,7 +25,8 @@ export default function Navbar({
     { id: 'twoway', label: '2-Way Chat', icon: MessageSquare },
     { id: 'signopedia', label: 'Sign-o-Pedia', icon: BookOpen, badge: '60+' },
     { id: 'practice', label: 'Practice', icon: Award },
-    { id: 'emergency', label: 'Emergency', icon: ShieldAlert, isAlert: true }
+    { id: 'emergency', label: 'Emergency', icon: ShieldAlert, isAlert: true },
+    { id: 'about', label: 'About', icon: Users }
   ];
 
   const handleSelectTab = (tabId) => {

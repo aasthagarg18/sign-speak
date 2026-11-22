@@ -4,6 +4,8 @@ import {
   ShieldCheck, Heart, BookOpen, Users, MessageSquare, Award, Play
 } from 'lucide-react';
 import { BotanicalBranch, BotanicalWatermark } from './BotanicalDecorations';
+import { BilingualDialogueIllustration, AuthenticISLHandsShowcase } from './HumanISLVisuals';
+import AboutSection from './AboutSection';
 
 export default function LandingPage({ onStartCommunicating, onSelectFeature, onOpenDictionary }) {
   const features = [
@@ -216,7 +218,6 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
                 {/* Visual Graphic: Stylized Hands & Skeleton Frame */}
                 <div
                   style={{
-                    height: '240px',
                     borderRadius: 'var(--radius-md)',
                     backgroundColor: 'var(--color-beige)',
                     border: '1px solid var(--color-taupe)',
@@ -225,39 +226,26 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
                     alignItems: 'center',
                     justifyContent: 'center',
                     position: 'relative',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    padding: '16px'
                   }}
                 >
                   <BotanicalWatermark opacity={0.06} />
 
-                  {/* Stylized Namaste Silhouette in Forest Green */}
-                  <div
-                    style={{
-                      width: '90px',
-                      height: '90px',
-                      borderRadius: '50%',
-                      backgroundColor: 'rgba(38, 63, 50, 0.12)',
-                      border: '2px solid var(--color-forest-green)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '38px',
-                      marginBottom: '12px',
-                      boxShadow: '0 4px 16px rgba(38, 63, 50, 0.15)'
-                    }}
-                  >
-                    🙏
-                  </div>
+                  {/* Authentic Bilingual Dialogue Illustration */}
+                  <BilingualDialogueIllustration width={360} height={200} />
 
-                  <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.35rem', fontWeight: 700, color: 'var(--color-forest-green)' }}>
-                    "Namaste"
-                  </div>
-                  <div style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', marginTop: '2px' }}>
-                    Recognized with 98.4% Confidence
+                  <div style={{ textAlign: 'center', marginTop: '8px' }}>
+                    <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.25rem', fontWeight: 700, color: 'var(--color-forest-green)' }}>
+                      "Namaste • Aap Kaise Hain?"
+                    </div>
+                    <div style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', marginTop: '2px' }}>
+                      Deaf Signer ⇄ Hearing Listener Bilingual Dialogue
+                    </div>
                   </div>
 
                   {/* Audio Wave Bar Indicator */}
-                  <div style={{ display: 'flex', gap: '3px', marginTop: '12px', alignItems: 'center', height: '18px' }}>
+                  <div style={{ display: 'flex', gap: '3px', marginTop: '10px', alignItems: 'center', height: '18px' }}>
                     <span style={{ width: '3px', height: '10px', backgroundColor: 'var(--color-rust)', borderRadius: '2px' }} />
                     <span style={{ width: '3px', height: '18px', backgroundColor: 'var(--color-rust)', borderRadius: '2px' }} />
                     <span style={{ width: '3px', height: '14px', backgroundColor: 'var(--color-rust)', borderRadius: '2px' }} />
@@ -453,6 +441,15 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
               );
             })}
           </div>
+        </div>
+      </section>
+
+      {/* =====================================================================
+          SECTION: AUTHENTIC ISL HANDSHAPES & KINEMATICS
+          ===================================================================== */}
+      <section style={{ padding: '70px 0', backgroundColor: 'var(--color-warm-ivory)', borderBottom: '1px solid var(--color-beige)' }}>
+        <div className="container">
+          <AuthenticISLHandsShowcase onExploreDict={onOpenDictionary} />
         </div>
       </section>
 

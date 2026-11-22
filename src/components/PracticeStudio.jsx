@@ -129,7 +129,7 @@ export default function PracticeStudio({ speechHook, onNavigateToWebcam = null }
 
       {/* Quiz Play Area */}
       {currentQ && (
-        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.25fr) minmax(0, 1fr)', gap: '24px' }}>
+        <div className="workbench-grid">
           {/* Sign Demonstration Avatar to Identify */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

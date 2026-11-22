@@ -25,7 +25,7 @@ export default function TextToSign({ speechHook }) {
   };
 
   return (
-    <div className="text-to-sign-container" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.25fr) minmax(0, 1.35fr)', gap: '24px' }}>
+    <div className="text-to-sign-container workbench-grid">
       {/* Left Column: Text Input & Gloss Sequence */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         {/* Input Card */}
