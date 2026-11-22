@@ -156,7 +156,7 @@ export default function App() {
           </div>
         )}
 
-        {/* Tab 3: Translator Hub (4-in-1 Suite) */}
+        {/* Tab 3: Translator Hub (3-in-1 Suite) */}
         {activeTab === 'translator' && (
           <div className="container" style={{ padding: '36px 24px 60px' }}>
             <div style={{ marginBottom: '28px' }}>
@@ -165,11 +165,11 @@ export default function App() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
                     <BotanicalBranch size={22} color="var(--color-forest-green)" />
                     <h1 style={{ margin: 0, fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', color: 'var(--color-forest-green)' }}>
-                      AI Translation & Synthesis Suite
+                      Translation Suite
                     </h1>
                   </div>
                   <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--text-muted)' }}>
-                    Bidirectional bridge: Webcam Signs ⇄ Vocalized Speech ⇄ Animated Demonstrations
+                    Translate between Indian Sign Language, spoken voice, and text
                   </p>
                 </div>
 
@@ -189,21 +189,21 @@ export default function App() {
                     onClick={() => setTranslatorSubMode('sign-to-text')}
                     style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8125rem', padding: '6px 14px' }}
                   >
-                    <Camera size={14} /> 1. Sign-to-Text & Voice
+                    <Camera size={14} /> Sign-to-Text
                   </button>
                   <button
                     className={`btn btn-sm ${translatorSubMode === 'text-to-sign' ? 'btn-forest' : 'btn-ghost'}`}
                     onClick={() => setTranslatorSubMode('text-to-sign')}
                     style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8125rem', padding: '6px 14px' }}
                   >
-                    <Type size={14} /> 2. Text-to-Sign
+                    <Type size={14} /> Text-to-Sign
                   </button>
                   <button
                     className={`btn btn-sm ${translatorSubMode === 'speech-to-sign' ? 'btn-forest' : 'btn-ghost'}`}
                     onClick={() => setTranslatorSubMode('speech-to-sign')}
                     style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8125rem', padding: '6px 14px' }}
                   >
-                    <Mic size={14} /> 3. Speech-to-Sign
+                    <Mic size={14} /> Speech-to-Sign
                   </button>
                 </div>
               </div>
@@ -247,6 +247,16 @@ export default function App() {
         {activeTab === 'emergency' && (
           <div className="container" style={{ padding: '36px 24px 60px' }}>
             <EmergencyCards speechHook={speechHook} />
+          </div>
+        )}
+
+        {/* Tab 8: About & Mission */}
+        {activeTab === 'about' && (
+          <div className="container" style={{ padding: '36px 24px 60px' }}>
+            <AboutSection
+              onStartCommunicating={() => setActiveTab('dashboard')}
+              onOpenDictionary={() => setActiveTab('signopedia')}
+            />
           </div>
         )}
       </main>

@@ -1,11 +1,9 @@
 import React from 'react';
 import {
-  Camera, Volume2, Type, Mic, ArrowRight, Sparkles, CheckCircle2,
-  ShieldCheck, Heart, BookOpen, Users, MessageSquare, Award, Play
+  Camera, Volume2, Type, Mic, ArrowRight, CheckCircle2, BookOpen
 } from 'lucide-react';
 import { BotanicalBranch, BotanicalWatermark } from './BotanicalDecorations';
-import { BilingualDialogueIllustration, AuthenticISLHandsShowcase } from './HumanISLVisuals';
-import AboutSection from './AboutSection';
+import { AuthenticISLHandsShowcase } from './HumanISLVisuals';
 
 export default function LandingPage({ onStartCommunicating, onSelectFeature, onOpenDictionary }) {
   const features = [
@@ -13,41 +11,37 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
       id: 'sign-to-text',
       title: 'Sign-to-Text',
       category: 'Computer Vision',
-      desc: 'Real-time 21-point hand tracking through your webcam transforms Indian Sign Language into clear, written text.',
+      desc: 'Point your camera to translate Indian Sign Language into written text in real time.',
       icon: Camera,
-      badge: 'Webcam AI',
-      color: 'var(--color-forest-green)',
-      sample: 'Namaste, thank you'
+      badge: 'Live Camera',
+      color: 'var(--color-forest-green)'
     },
     {
       id: 'sign-to-speech',
       title: 'Sign-to-Speech',
-      category: 'Vocal Synthesis',
-      desc: 'Converts recognized ISL signs into natural spoken words in Indian English or Hindi for seamless audio communication.',
+      category: 'Audio Voice',
+      desc: 'Vocalize recognized ISL signs aloud in natural Indian English or Hindi for hearing companions.',
       icon: Volume2,
-      badge: 'SpeechSynthesis',
-      color: 'var(--color-rust)',
-      sample: 'Vocalizes phrases instantly'
+      badge: 'Voice Audio',
+      color: 'var(--color-rust)'
     },
     {
       id: 'text-to-sign',
       title: 'Text-to-Sign',
-      category: 'Kinematic Demonstration',
-      desc: 'Type any message to generate step-by-step ISL animated avatar demonstrations, with finger-spelling fallback for names.',
+      category: 'Kinematics',
+      desc: 'Type words or sentences to view animated, step-by-step ISL sign demonstrations.',
       icon: Type,
-      badge: 'Visual Grammar',
-      color: 'var(--color-terracotta)',
-      sample: 'Animated Avatar Demonstrations'
+      badge: 'Animated Sign',
+      color: 'var(--color-terracotta)'
     },
     {
       id: 'speech-to-sign',
       title: 'Speech-to-Sign',
-      category: 'Live Voice Translation',
-      desc: 'Transcribes spoken words using browser voice recognition and maps the sentence directly into corresponding ISL gestures.',
+      category: 'Live Voice',
+      desc: 'Speak into your microphone to convert spoken voice directly into corresponding ISL gestures.',
       icon: Mic,
-      badge: 'Web Speech API',
-      color: 'var(--color-olive)',
-      sample: 'Live Hearing-to-Deaf Bridge'
+      badge: 'Microphone',
+      color: 'var(--color-olive)'
     }
   ];
 
@@ -55,17 +49,17 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
     {
       num: '01',
       title: 'Choose Your Modality',
-      desc: 'Sign through your camera, speak with your voice, or type a message. SignSpeak handles bidirectional translation effortlessly.'
+      desc: 'Sign via camera, speak with your voice, or type a phrase. SignSpeak translates both directions seamlessly.'
     },
     {
       num: '02',
-      title: 'Kinematic ISL Processing',
-      desc: 'Our browser-based engine evaluates joint angles, palm orientations, and movement patterns against authentic Indian Sign Language rules.'
+      title: 'Real-Time Recognition',
+      desc: 'In-browser computer vision maps hand movements and joint angles against authentic ISL gestures.'
     },
     {
       num: '03',
-      title: 'Meaningful Connection',
-      desc: 'Engage in natural, dignified conversations in clinics, classrooms, bank counters, or with family and friends.'
+      title: 'Dignified Dialogue',
+      desc: 'Communicate with ease in medical clinics, classrooms, bank counters, and everyday family life.'
     }
   ];
 
@@ -73,22 +67,22 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
     {
       stat: '18 Million+',
       label: 'Deaf & Hard-of-Hearing Indians',
-      sub: 'Providing an independent voice in public and private spaces'
+      sub: 'Supporting independent daily communication across public and private spaces'
     },
     {
       stat: 'WCAG AAA',
-      label: 'Accessibility Compliance',
-      sub: 'High contrast, dyslexia typography, deaf visual beacons'
+      label: 'Universal Accessibility',
+      sub: 'High contrast themes, dyslexia-friendly typography, and visual flash alerts'
     },
     {
       stat: '100% Client-Side',
-      label: 'Privacy First',
-      sub: 'Camera frames never leave your device without consent'
+      label: 'In-Browser Privacy',
+      sub: 'Camera streams are processed on your device and are never sent to remote servers'
     },
     {
-      stat: '60+ ISL Signs',
-      label: 'Growing Dictionary',
-      sub: 'Greetings, healthcare, emergency, education & alphabet'
+      stat: '60+ Signs',
+      label: 'Growing ISL Library',
+      sub: 'Everyday greetings, healthcare, emergency essentials, and fingerspelling'
     }
   ];
 
@@ -100,9 +94,9 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
       {/* =====================================================================
           HERO SECTION
           ===================================================================== */}
-      <section style={{ padding: '60px 0 80px', position: 'relative' }}>
+      <section style={{ padding: '56px 0 76px', position: 'relative' }}>
         <div className="container">
-          <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '48px', alignItems: 'center' }}>
+          <div className="hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.15fr 1fr', gap: '44px', alignItems: 'center' }}>
             {/* Left Content */}
             <div>
               {/* Botanical Badge */}
@@ -125,14 +119,14 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
               </div>
 
               {/* Main Headline */}
-              <h1 style={{ marginBottom: '22px', color: 'var(--color-forest-green)' }}>
+              <h1 style={{ marginBottom: '20px', color: 'var(--color-forest-green)', lineHeight: 1.2 }}>
                 Every Sign Deserves to Be Understood.
               </h1>
 
               {/* Supporting Text */}
-              <p style={{ fontSize: '1.125rem', lineHeight: 1.7, color: 'var(--color-charcoal)', marginBottom: '32px', maxWidth: '580px' }}>
-                SignSpeak bridges the communication gap between sign language users and the hearing world.
-                Translate live webcam signs into spoken voice, or convert spoken voice into beautiful ISL demonstrations — naturally, privately, and with dignity.
+              <p style={{ fontSize: '1.1rem', lineHeight: 1.7, color: 'var(--color-charcoal)', marginBottom: '32px', maxWidth: '560px' }}>
+                SignSpeak bridges the communication gap between sign language users and the hearing world in real time.
+                Translate live webcam signs into spoken voice, or convert speech and text into clear ISL demonstrations.
               </p>
 
               {/* CTAs */}
@@ -169,164 +163,131 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
               </div>
 
               {/* Trust Badges */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginTop: '36px', paddingTop: '24px', borderTop: '1px solid var(--color-beige)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '22px', marginTop: '36px', paddingTop: '22px', borderTop: '1px solid var(--color-beige)', flexWrap: 'wrap' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
                   <CheckCircle2 size={16} color="var(--color-forest-green)" />
                   <span>Real-time Camera Vision</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
                   <CheckCircle2 size={16} color="var(--color-forest-green)" />
-                  <span>SpeechSynthesis Audio</span>
+                  <span>Spoken Voice Synthesis</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
                   <CheckCircle2 size={16} color="var(--color-forest-green)" />
-                  <span>WCAG 2.1 AAA Compliant</span>
+                  <span>100% In-Browser Privacy</span>
                 </div>
               </div>
             </div>
 
-            {/* Right Visual Composition: Floating Botanical Cards */}
-            <div style={{ position: 'relative', display: 'flex', justifyContent: 'center' }}>
-              {/* Main Card (Signer Window) */}
+            {/* Right Visual: Authentic Photograph Frame */}
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
               <div
-                className="card animate-float"
+                className="card"
                 style={{
                   width: '100%',
-                  maxWidth: '440px',
-                  padding: '24px',
+                  maxWidth: '480px',
+                  padding: '16px',
                   backgroundColor: 'var(--color-soft-ivory)',
                   border: '1.5px solid var(--color-beige)',
                   borderRadius: 'var(--radius-lg)',
-                  boxShadow: 'var(--shadow-lg)',
-                  position: 'relative',
-                  zIndex: 2
+                  boxShadow: 'var(--shadow-md)',
+                  position: 'relative'
                 }}
               >
-                {/* Header of Preview */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                {/* Image Header Pill */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', padding: '0 4px' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: 'var(--color-forest-green)' }} />
-                    <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: 'var(--color-forest-green)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                      Live ISL Recognition
+                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--color-forest-green)' }} />
+                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-forest-green)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                      Sign Language Communication
                     </span>
                   </div>
-                  <span className="badge badge-sage" style={{ fontSize: '0.75rem' }}>
-                    Active 21 Landmarks
+                  <span className="badge badge-sage" style={{ fontSize: '0.6875rem' }}>
+                    Authentic ISL Dialogue
                   </span>
                 </div>
 
-                {/* Visual Graphic: Stylized Hands & Skeleton Frame */}
+                {/* Realistic Photograph */}
                 <div
                   style={{
-                    borderRadius: 'var(--radius-md)',
-                    backgroundColor: 'var(--color-beige)',
-                    border: '1px solid var(--color-taupe)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
                     position: 'relative',
+                    borderRadius: 'var(--radius-md)',
                     overflow: 'hidden',
-                    padding: '16px'
+                    backgroundColor: 'var(--color-beige)',
+                    border: '1px solid var(--color-taupe-light)',
+                    aspectRatio: '16/11'
                   }}
                 >
-                  <BotanicalWatermark opacity={0.06} />
+                  <img
+                    src="/images/sign-language-communication.jpg"
+                    alt="Two people communicating genuinely through sign language in a warm, welcoming setting"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      display: 'block'
+                    }}
+                    loading="eager"
+                  />
+                  {/* Subtle warm tint overlay to harmonize with Vintage Botanical palette */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'linear-gradient(to top, rgba(28, 48, 39, 0.45) 0%, rgba(28, 48, 39, 0) 50%)',
+                      pointerEvents: 'none'
+                    }}
+                  />
 
-                  {/* Authentic Bilingual Dialogue Illustration */}
-                  <BilingualDialogueIllustration width={360} height={200} />
-
-                  <div style={{ textAlign: 'center', marginTop: '8px' }}>
-                    <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.25rem', fontWeight: 700, color: 'var(--color-forest-green)' }}>
-                      "Namaste • Aap Kaise Hain?"
+                  {/* Photo Caption Overlay */}
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: '12px',
+                      left: '14px',
+                      right: '14px',
+                      color: '#FFFDF8'
+                    }}
+                  >
+                    <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.15rem', fontWeight: 700, textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}>
+                      "Namaste • How can I assist you?"
                     </div>
-                    <div style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', marginTop: '2px' }}>
-                      Deaf Signer ⇄ Hearing Listener Bilingual Dialogue
+                    <div style={{ fontSize: '0.75rem', opacity: 0.9, marginTop: '2px' }}>
+                      Deaf Signer ⇄ Hearing Companion Everyday Exchange
                     </div>
-                  </div>
-
-                  {/* Audio Wave Bar Indicator */}
-                  <div style={{ display: 'flex', gap: '3px', marginTop: '10px', alignItems: 'center', height: '18px' }}>
-                    <span style={{ width: '3px', height: '10px', backgroundColor: 'var(--color-rust)', borderRadius: '2px' }} />
-                    <span style={{ width: '3px', height: '18px', backgroundColor: 'var(--color-rust)', borderRadius: '2px' }} />
-                    <span style={{ width: '3px', height: '14px', backgroundColor: 'var(--color-rust)', borderRadius: '2px' }} />
-                    <span style={{ width: '3px', height: '8px', backgroundColor: 'var(--color-rust)', borderRadius: '2px' }} />
                   </div>
                 </div>
 
                 {/* Bottom Translated Sentence Bar */}
                 <div
                   style={{
-                    marginTop: '16px',
+                    marginTop: '12px',
                     padding: '12px 16px',
                     borderRadius: 'var(--radius-sm)',
                     backgroundColor: 'var(--color-warm-ivory)',
                     border: '1px solid var(--color-beige)',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'space-between'
+                    justifyContent: 'space-between',
+                    gap: '12px'
                   }}
                 >
                   <div>
-                    <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--color-taupe)', textTransform: 'uppercase' }}>
+                    <div style={{ fontSize: '0.6875rem', fontWeight: 600, color: 'var(--color-taupe)', textTransform: 'uppercase' }}>
                       Translated Speech
                     </div>
-                    <div style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--color-charcoal)' }}>
+                    <div style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--color-charcoal)' }}>
                       "Namaste, glad to meet you!"
                     </div>
                   </div>
                   <button
                     className="btn btn-rust btn-sm"
                     onClick={onStartCommunicating}
-                    style={{ padding: '6px 12px' }}
+                    style={{ padding: '6px 12px', flexShrink: 0 }}
                   >
-                    <Volume2 size={14} /> Listen
+                    <Volume2 size={13} /> Listen
                   </button>
                 </div>
-              </div>
-
-              {/* Floating Leaf Accent 1 */}
-              <div
-                style={{
-                  position: 'absolute',
-                  top: '-25px',
-                  right: '-15px',
-                  backgroundColor: 'var(--color-muted-sage)',
-                  border: '1.5px solid var(--color-sage)',
-                  borderRadius: 'var(--radius-pill)',
-                  padding: '8px 16px',
-                  fontSize: '0.8125rem',
-                  fontWeight: 700,
-                  color: 'var(--color-deep-forest)',
-                  boxShadow: 'var(--shadow-md)',
-                  zIndex: 3,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px'
-                }}
-              >
-                🌿 60+ ISL Vocabulary
-              </div>
-
-              {/* Floating Leaf Accent 2 */}
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: '-20px',
-                  left: '-15px',
-                  backgroundColor: 'var(--color-deep-forest)',
-                  color: 'var(--color-warm-ivory)',
-                  borderRadius: 'var(--radius-md)',
-                  padding: '12px 18px',
-                  fontSize: '0.8125rem',
-                  boxShadow: 'var(--shadow-lg)',
-                  zIndex: 3,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px'
-                }}
-              >
-                <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#10B981' }} />
-                <span>MediaPipe Hands Vision Active</span>
               </div>
             </div>
           </div>
@@ -339,14 +300,14 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
       <section
         id="features-section"
         style={{
-          padding: '80px 0',
+          padding: '70px 0',
           backgroundColor: 'var(--color-soft-ivory)',
           borderTop: '1px solid var(--color-beige)',
           borderBottom: '1px solid var(--color-beige)'
         }}
       >
         <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 50px' }}>
+          <div style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto 44px' }}>
             <span
               style={{
                 fontSize: '0.8125rem',
@@ -358,11 +319,11 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
                 marginBottom: '8px'
               }}
             >
-              Comprehensive Modality Suite
+              Translation Tools
             </span>
-            <h2 style={{ marginBottom: '14px' }}>Four Ways to Bridge the Gap</h2>
-            <p style={{ color: 'var(--text-muted)' }}>
-              Whether you are a deaf signer, a teacher, a doctor, or a family member, SignSpeak provides intuitive tools for natural two-way exchanges.
+            <h2 style={{ marginBottom: '12px' }}>Four Modalities for Natural Communication</h2>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>
+              Whether you communicate via sign, voice, or text, SignSpeak bridges conversations directly in your browser.
             </p>
           </div>
 
@@ -370,8 +331,8 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '24px'
+              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              gap: '22px'
             }}
           >
             {features.map((feat) => {
@@ -382,21 +343,22 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
                   className="card card-interactive"
                   onClick={() => onSelectFeature(feat.id)}
                   style={{
-                    padding: '28px',
+                    padding: '26px',
                     borderRadius: 'var(--radius-lg)',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'space-between',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    border: '1.5px solid var(--color-beige)'
                   }}
                 >
                   <div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '18px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
                       <div
                         style={{
-                          width: '48px',
-                          height: '48px',
-                          borderRadius: '14px',
+                          width: '46px',
+                          height: '46px',
+                          borderRadius: '12px',
                           backgroundColor: 'var(--color-beige)',
                           border: '1.5px solid var(--color-taupe)',
                           display: 'flex',
@@ -405,7 +367,7 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
                           color: feat.color
                         }}
                       >
-                        <Icon size={24} />
+                        <Icon size={22} />
                       </div>
 
                       <span className="badge badge-sage">
@@ -413,29 +375,30 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
                       </span>
                     </div>
 
-                    <h3 style={{ fontSize: '1.35rem', marginBottom: '8px' }}>
+                    <h3 style={{ fontSize: '1.25rem', marginBottom: '8px' }}>
                       {feat.title}
                     </h3>
 
-                    <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: '20px' }}>
+                    <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.55 }}>
                       {feat.desc}
                     </p>
                   </div>
 
                   <div
                     style={{
-                      paddingTop: '16px',
+                      marginTop: '20px',
+                      paddingTop: '14px',
                       borderTop: '1px solid var(--color-beige)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'space-between',
-                      fontSize: '0.875rem',
+                      fontSize: '0.8125rem',
                       fontWeight: 600,
                       color: 'var(--color-forest-green)'
                     }}
                   >
-                    <span>Launch Tool</span>
-                    <ArrowRight size={16} />
+                    <span>Launch Modality</span>
+                    <ArrowRight size={15} />
                   </div>
                 </div>
               );
@@ -445,9 +408,9 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
       </section>
 
       {/* =====================================================================
-          SECTION: AUTHENTIC ISL HANDSHAPES & KINEMATICS
+          SECTION: AUTHENTIC ISL FOUNDATIONS
           ===================================================================== */}
-      <section style={{ padding: '70px 0', backgroundColor: 'var(--color-warm-ivory)', borderBottom: '1px solid var(--color-beige)' }}>
+      <section style={{ padding: '60px 0', backgroundColor: 'var(--color-warm-ivory)', borderBottom: '1px solid var(--color-beige)' }}>
         <div className="container">
           <AuthenticISLHandsShowcase onExploreDict={onOpenDictionary} />
         </div>
@@ -456,9 +419,9 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
       {/* =====================================================================
           SECTION: HOW IT WORKS (3 SIMPLE STEPS)
           ===================================================================== */}
-      <section style={{ padding: '80px 0', backgroundColor: 'var(--color-warm-ivory)' }}>
+      <section style={{ padding: '70px 0', backgroundColor: 'var(--color-warm-ivory)' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto 50px' }}>
+          <div style={{ textAlign: 'center', maxWidth: '560px', margin: '0 auto 44px' }}>
             <span
               style={{
                 fontSize: '0.8125rem',
@@ -470,19 +433,19 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
                 marginBottom: '8px'
               }}
             >
-              Frictionless Architecture
+              How It Works
             </span>
-            <h2 style={{ marginBottom: '14px' }}>How SignSpeak Operates</h2>
-            <p style={{ color: 'var(--text-muted)' }}>
-              Built for instant accessibility directly in the browser — without requiring clunky external hardware or cloud latency.
+            <h2 style={{ marginBottom: '12px' }}>Simple, Three-Step Workflow</h2>
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem' }}>
+              Built for immediate access on desktop and mobile without special hardware.
             </p>
           </div>
 
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '28px'
+              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              gap: '24px'
             }}
           >
             {steps.map((st, idx) => (
@@ -490,31 +453,30 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
                 key={idx}
                 className="card"
                 style={{
-                  padding: '32px 24px',
+                  padding: '28px 22px',
                   borderRadius: 'var(--radius-lg)',
                   border: '1.5px solid var(--color-beige)',
-                  backgroundColor: 'var(--color-soft-ivory)',
-                  position: 'relative'
+                  backgroundColor: 'var(--color-soft-ivory)'
                 }}
               >
                 <div
                   style={{
                     fontFamily: 'var(--font-serif)',
-                    fontSize: '2.5rem',
+                    fontSize: '2.2rem',
                     fontWeight: 800,
                     color: 'var(--color-terracotta)',
                     lineHeight: 1,
-                    marginBottom: '16px'
+                    marginBottom: '14px'
                   }}
                 >
                   {st.num}
                 </div>
 
-                <h3 style={{ fontSize: '1.25rem', marginBottom: '10px' }}>
+                <h3 style={{ fontSize: '1.15rem', marginBottom: '8px' }}>
                   {st.title}
                 </h3>
 
-                <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>
+                <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.55 }}>
                   {st.desc}
                 </p>
               </div>
@@ -528,14 +490,14 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
           ===================================================================== */}
       <section
         style={{
-          padding: '80px 0',
+          padding: '70px 0',
           backgroundColor: 'var(--color-deep-forest)',
           color: 'var(--color-warm-ivory)',
           position: 'relative'
         }}
       >
         <div className="container">
-          <div style={{ textAlign: 'center', maxWidth: '640px', margin: '0 auto 50px' }}>
+          <div style={{ textAlign: 'center', maxWidth: '600px', margin: '0 auto 44px' }}>
             <span
               style={{
                 fontSize: '0.8125rem',
@@ -547,13 +509,13 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
                 marginBottom: '8px'
               }}
             >
-              Inclusivity Without Compromise
+              Universal Inclusion
             </span>
-            <h2 style={{ color: 'var(--color-warm-ivory)', marginBottom: '14px' }}>
-              Designed for Dignity & Universal Access
+            <h2 style={{ color: 'var(--color-warm-ivory)', marginBottom: '12px' }}>
+              Designed for Dignity & Everyday Independence
             </h2>
-            <p style={{ color: 'var(--color-sage)', fontSize: '1.05rem' }}>
-              Sign language is not an afterthought; it is a rich visual language. SignSpeak prioritizes privacy, cultural accuracy, and WCAG AAA compliance.
+            <p style={{ color: 'var(--color-sage)', fontSize: '0.95rem' }}>
+              Indian Sign Language is a complete visual language with its own grammar and regional richness.
             </p>
           </div>
 
@@ -561,17 +523,17 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-              gap: '24px'
+              gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))',
+              gap: '20px'
             }}
           >
             {socialImpacts.map((si, idx) => (
               <div
                 key={idx}
                 style={{
-                  padding: '28px',
+                  padding: '24px',
                   borderRadius: 'var(--radius-md)',
-                  backgroundColor: 'rgba(38, 63, 50, 0.6)',
+                  backgroundColor: 'rgba(38, 63, 50, 0.65)',
                   border: '1px solid rgba(168, 180, 154, 0.25)',
                   textAlign: 'center'
                 }}
@@ -579,7 +541,7 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
                 <div
                   style={{
                     fontFamily: 'var(--font-serif)',
-                    fontSize: '2.2rem',
+                    fontSize: '2rem',
                     fontWeight: 800,
                     color: 'var(--color-warm-ivory)',
                     marginBottom: '6px'
@@ -587,10 +549,10 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
                 >
                   {si.stat}
                 </div>
-                <div style={{ fontSize: '1rem', fontWeight: 600, color: 'var(--color-sage)', marginBottom: '6px' }}>
+                <div style={{ fontSize: '0.95rem', fontWeight: 600, color: 'var(--color-sage)', marginBottom: '6px' }}>
                   {si.label}
                 </div>
-                <div style={{ fontSize: '0.8125rem', color: '#DCE4D5', opacity: 0.85 }}>
+                <div style={{ fontSize: '0.8125rem', color: '#DCE4D5', opacity: 0.85, lineHeight: 1.45 }}>
                   {si.sub}
                 </div>
               </div>
@@ -600,8 +562,8 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
           {/* Action Banner inside Dark Section */}
           <div
             style={{
-              marginTop: '60px',
-              padding: '36px',
+              marginTop: '50px',
+              padding: '30px 32px',
               borderRadius: 'var(--radius-lg)',
               backgroundColor: 'var(--color-forest-green)',
               border: '1px solid rgba(168, 180, 154, 0.3)',
@@ -609,15 +571,15 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
               justifyContent: 'space-between',
               alignItems: 'center',
               flexWrap: 'wrap',
-              gap: '20px'
+              gap: '18px'
             }}
           >
             <div>
-              <h3 style={{ color: 'var(--color-warm-ivory)', margin: '0 0 6px', fontSize: '1.45rem' }}>
+              <h3 style={{ color: 'var(--color-warm-ivory)', margin: '0 0 6px', fontSize: '1.35rem' }}>
                 Explore the ISL Sign-o-Pedia Dictionary
               </h3>
-              <p style={{ margin: 0, color: 'var(--color-sage)', fontSize: '0.95rem' }}>
-                Browse over 60+ Indian Sign Language signs with movement guides and handshape breakdowns.
+              <p style={{ margin: 0, color: 'var(--color-sage)', fontSize: '0.875rem' }}>
+                Browse over 60+ verified Indian Sign Language signs with video animations and movement guides.
               </p>
             </div>
 
@@ -627,11 +589,11 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
               style={{
                 backgroundColor: 'var(--color-rust)',
                 color: '#FFFDF8',
-                padding: '12px 24px',
+                padding: '12px 22px',
                 fontWeight: 700
               }}
             >
-              <BookOpen size={18} /> Open Dictionary
+              <BookOpen size={16} /> Open Dictionary
             </button>
           </div>
         </div>
@@ -642,43 +604,39 @@ export default function LandingPage({ onStartCommunicating, onSelectFeature, onO
           ===================================================================== */}
       <footer
         style={{
-          padding: '50px 0 30px',
+          padding: '40px 0 24px',
           backgroundColor: 'var(--color-warm-ivory)',
           borderTop: '1px solid var(--color-beige)'
         }}
       >
         <div className="container">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '20px', paddingBottom: '30px', borderBottom: '1px solid var(--color-beige)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', paddingBottom: '24px', borderBottom: '1px solid var(--color-beige)' }}>
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-                <span style={{ fontSize: '24px' }}>🌿</span>
-                <span style={{ fontFamily: 'var(--font-serif)', fontSize: '1.4rem', fontWeight: 800, color: 'var(--color-forest-green)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+                <span style={{ fontSize: '22px' }}>🌿</span>
+                <span style={{ fontFamily: 'var(--font-serif)', fontSize: '1.3rem', fontWeight: 800, color: 'var(--color-forest-green)' }}>
                   SignSpeak
                 </span>
-                <span className="badge badge-forest" style={{ fontSize: '0.7rem' }}>
+                <span className="badge badge-forest" style={{ fontSize: '0.6875rem' }}>
                   ISL AI
                 </span>
               </div>
-              <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--text-muted)', maxWidth: '420px' }}>
-                A respectful, accessible technological bridge for Indian Sign Language and spoken dialogue.
+              <p style={{ margin: 0, fontSize: '0.8125rem', color: 'var(--text-muted)', maxWidth: '420px' }}>
+                Empowering India's Deaf & Hard-of-Hearing community through respectful, accessible AI communication.
               </p>
             </div>
 
-            <div style={{ display: 'flex', gap: '12px' }}>
-              <button className="btn btn-rust" onClick={onStartCommunicating}>
-                Launch Application
-              </button>
-            </div>
+            <button className="btn btn-rust" onClick={onStartCommunicating} style={{ padding: '10px 20px', fontWeight: 700 }}>
+              Launch Application
+            </button>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', paddingTop: '20px', fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
-            <span>© 2026 SignSpeak Platform. Crafted with care for the Deaf & Hard-of-Hearing community.</span>
-            <div style={{ display: 'flex', gap: '16px' }}>
-              <span>WCAG 2.1 AAA</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', paddingTop: '18px', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+            <span>© 2026 SignSpeak Platform. WCAG 2.1 AAA Compliant.</span>
+            <div style={{ display: 'flex', gap: '14px' }}>
+              <span>Indian Sign Language Standard</span>
               <span>•</span>
               <span>100% In-Browser Privacy</span>
-              <span>•</span>
-              <span>Indian Sign Language Standard</span>
             </div>
           </div>
         </div>

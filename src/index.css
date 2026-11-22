@@ -426,22 +426,23 @@ a:hover {
 }
 
 /* =====================================================================
-   NAVIGATION BAR
+   NAVIGATION BAR — RUST BOTANICAL ACCENT
    ===================================================================== */
 .botanical-navbar {
   position: sticky;
   top: 0;
   z-index: 900;
-  background-color: rgba(248, 245, 237, 0.95);
+  background-color: var(--color-rust);
   backdrop-filter: blur(14px);
-  border-bottom: 1.5px solid var(--color-beige);
+  border-bottom: 1px solid rgba(255, 253, 248, 0.18);
+  box-shadow: 0 2px 14px rgba(141, 67, 44, 0.25);
   transition: background-color var(--transition-fast);
 }
 
 .nav-link {
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--color-forest-green);
+  color: rgba(255, 253, 248, 0.92);
   padding: 8px 14px;
   border-radius: var(--radius-pill);
   transition: all var(--transition-fast);
@@ -455,14 +456,55 @@ a:hover {
 }
 
 .nav-link:hover {
+  background-color: rgba(255, 253, 248, 0.18);
+  color: #FFFDF8;
+}
+
+.nav-link.active {
+  background-color: #FFFDF8;
+  color: var(--color-rust);
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.navbar-icon-btn {
+  background-color: rgba(255, 253, 248, 0.16) !important;
+  border: 1px solid rgba(255, 253, 248, 0.3) !important;
+  color: #FFFDF8 !important;
+  transition: all var(--transition-fast);
+}
+
+.navbar-icon-btn:hover {
+  background-color: rgba(255, 253, 248, 0.26) !important;
+  transform: translateY(-1px);
+}
+
+.nav-link-mobile {
+  color: var(--color-forest-green);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  width: 100%;
+  text-align: left;
+}
+
+.nav-link-mobile:hover {
   background-color: var(--color-beige);
   color: var(--color-forest-green);
 }
 
-.nav-link.active {
-  background-color: var(--color-forest-green);
-  color: var(--color-soft-ivory);
-  font-weight: 600;
+.nav-link-mobile.active {
+  background-color: var(--color-rust);
+  color: #FFFDF8;
+  font-weight: 700;
 }
 
 @media (max-width: 1024px) {

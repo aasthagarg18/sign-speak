@@ -17,7 +17,7 @@ export default function Dashboard({
       id: 'sign-to-text',
       title: 'Sign-to-Text',
       category: 'Webcam AI',
-      desc: 'Capture ISL hand signs via webcam. Computer vision tracks 21 joints in real-time to compose text.',
+      desc: 'Point your camera to translate ISL signs into written text in real time.',
       icon: Camera,
       tag: 'Live Vision',
       color: 'var(--color-forest-green)',
@@ -27,7 +27,7 @@ export default function Dashboard({
       id: 'sign-to-speech',
       title: 'Sign-to-Speech',
       category: 'Audio Synthesis',
-      desc: 'Seamlessly vocalize recognized ISL signs in Indian English or Hindi for hearing non-signers.',
+      desc: 'Vocalize recognized signs aloud in natural Indian English or Hindi.',
       icon: Volume2,
       tag: 'Speech Engine',
       color: 'var(--color-rust)',
@@ -37,7 +37,7 @@ export default function Dashboard({
       id: 'text-to-sign',
       title: 'Text-to-Sign',
       category: 'Kinematics',
-      desc: 'Type words or phrases to generate fluid animated ISL avatar demonstrations with finger-spelling.',
+      desc: 'Type phrases to view step-by-step animated sign demonstrations.',
       icon: Type,
       tag: 'Animated Avatar',
       color: 'var(--color-terracotta)',
@@ -47,7 +47,7 @@ export default function Dashboard({
       id: 'speech-to-sign',
       title: 'Speech-to-Sign',
       category: 'Voice-to-ISL',
-      desc: 'Speak into your microphone to convert live voice into an immediate ISL demonstration stream.',
+      desc: 'Speak into your microphone to generate corresponding ISL gestures.',
       icon: Mic,
       tag: 'Live Microphone',
       color: 'var(--color-olive)',
@@ -59,14 +59,14 @@ export default function Dashboard({
     {
       tab: 'twoway',
       title: '2-Way Live Dialogue',
-      desc: 'Split-screen conversation for Signer & Hearing Speaker',
+      desc: 'Face-to-face chat for Deaf Signers and Hearing Companions',
       icon: MessageSquare,
       badge: 'Interactive Bridge'
     },
     {
       tab: 'signopedia',
       title: 'ISL Sign-o-Pedia',
-      desc: 'Explore 60+ categorized Indian Sign Language signs',
+      desc: 'Browse verified signs with video demonstrations',
       icon: BookOpen,
       badge: 'Library'
     },
@@ -80,7 +80,7 @@ export default function Dashboard({
     {
       tab: 'emergency',
       title: 'Emergency Quick-Cards',
-      desc: 'High-visibility medical, safety, and transit SOS cards',
+      desc: 'High-visibility SOS cards for urgent assistance',
       icon: ShieldAlert,
       badge: 'SOS Alert'
     }

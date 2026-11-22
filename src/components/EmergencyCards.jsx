@@ -118,7 +118,7 @@ export default function EmergencyCards({ speechHook }) {
               </h2>
             </div>
             <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--text-muted)' }}>
-              One-tap high-visibility visual and vocal alerts for critical medical, safety, and transit scenarios
+              One-tap visual and voice alerts for urgent medical, safety, and transit situations
             </p>
           </div>
         </div>
@@ -138,7 +138,7 @@ export default function EmergencyCards({ speechHook }) {
             boxShadow: 'var(--shadow-rust)'
           }}
         >
-          <Volume2 size={18} /> Broadcast Voice Siren
+          <Volume2 size={18} /> Broadcast Voice Alert
         </button>
       </div>
 

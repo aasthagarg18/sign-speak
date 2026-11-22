@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { Search, Volume2, Sparkles, BookOpen, Eye } from 'lucide-react';
+import { Search, Volume2, BookOpen, Eye, X, Sparkles, Video } from 'lucide-react';
 import { ISL_DICTIONARY, ISL_CATEGORIES } from '../data/islDictionary';
-import ISLGlossBadge from './ISLGlossBadge';
 import ISLAvatarPlayer from './ISLAvatarPlayer';
 import { tokenizeTextToISL } from '../utils/islMatcher';
 import { BotanicalBranch } from './BotanicalDecorations';
@@ -41,61 +40,123 @@ export default function Signopedia({ speechHook, onPracticeSign = null }) {
   const previewTokens = selectedSign ? tokenizeTextToISL(selectedSign.word) : [];
 
   return (
-    <div className="signopedia-container" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-      {/* Top Header & Search Bar */}
-      <div className="card" style={{ padding: '28px', borderRadius: 'var(--radius-lg)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', flexWrap: 'wrap', gap: '14px' }}>
+    <div className="signopedia-container" style={{ display: 'flex', flexDirection: 'column', gap: '22px' }}>
+      {/* Search Header Bar */}
+      <div
+        className="card"
+        style={{
+          padding: '24px 28px',
+          borderRadius: 'var(--radius-lg)',
+          border: '1.5px solid var(--color-beige)'
+        }}
+      >
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '18px', flexWrap: 'wrap', gap: '12px' }}>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-              <BotanicalBranch size={22} color="var(--color-forest-green)" />
-              <h2 style={{ margin: 0, fontSize: '1.75rem', color: 'var(--color-forest-green)' }}>
-                ISL Sign-o-Pedia Dictionary
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2px' }}>
+              <BotanicalBranch size={20} color="var(--color-forest-green)" />
+              <h2 style={{ margin: 0, fontSize: '1.55rem', color: 'var(--color-forest-green)' }}>
+                ISL Sign Dictionary
               </h2>
             </div>
             <p style={{ margin: 0, fontSize: '0.875rem', color: 'var(--text-muted)' }}>
-              Curated Indian Sign Language encyclopedia with handshape classifications, movements, and cultural nuances
+              Search Indian Sign Language vocabulary with animated demonstrations and handshape guides
             </p>
           </div>
 
-          <span className="badge badge-forest" style={{ fontSize: '0.8125rem', padding: '6px 14px' }}>
-            🌿 {filteredSigns.length} Verified Signs
+          <span
+            style={{
+              fontSize: '0.8125rem',
+              fontWeight: 700,
+              padding: '6px 14px',
+              borderRadius: 'var(--radius-pill)',
+              backgroundColor: 'var(--color-beige)',
+              color: 'var(--color-forest-green)',
+              border: '1px solid var(--color-taupe)'
+            }}
+          >
+            {filteredSigns.length} Signs Available
           </span>
         </div>
 
-        {/* Search & Filter Row */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.8fr) auto', gap: '14px' }}>
-          <div style={{ position: 'relative' }}>
+        {/* Search Input & Difficulty Selector */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) auto', gap: '12px', alignItems: 'center' }}>
+          <div style={{ position: 'relative', width: '100%' }}>
             <Search
               size={18}
               color="var(--color-taupe)"
-              style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)' }}
+              style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)' }}
             />
             <input
               type="text"
               className="form-control"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search signs by English word, Hindi tag, or gesture (e.g. Namaste, Doctor, Hospital, Water, A, 5)..."
-              style={{ width: '100%', paddingLeft: '42px', fontSize: '0.9rem', borderRadius: 'var(--radius-pill)', backgroundColor: 'var(--color-warm-ivory)' }}
+              placeholder="Search sign by name, meaning, or topic (e.g., Namaste, Hospital, Water, A)..."
+              style={{
+                width: '100%',
+                paddingLeft: '44px',
+                paddingRight: searchQuery ? '40px' : '16px',
+                fontSize: '0.925rem',
+                borderRadius: 'var(--radius-pill)',
+                backgroundColor: 'var(--color-warm-ivory)',
+                height: '46px'
+              }}
             />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                style={{
+                  position: 'absolute',
+                  right: '14px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  color: 'var(--color-taupe)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: 0
+                }}
+                title="Clear search"
+              >
+                <X size={16} />
+              </button>
+            )}
           </div>
 
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <select
-              className="form-control"
-              value={difficultyFilter}
-              onChange={(e) => setDifficultyFilter(e.target.value)}
-              style={{ fontSize: '0.8125rem', padding: '8px 14px', borderRadius: 'var(--radius-pill)', backgroundColor: 'var(--color-warm-ivory)' }}
-            >
-              <option value="all">All Difficulties</option>
-              <option value="beginner">Beginner</option>
-              <option value="intermediate">Intermediate</option>
-            </select>
-          </div>
+          <select
+            className="form-control"
+            value={difficultyFilter}
+            onChange={(e) => setDifficultyFilter(e.target.value)}
+            style={{
+              fontSize: '0.8125rem',
+              padding: '0 16px',
+              height: '46px',
+              borderRadius: 'var(--radius-pill)',
+              backgroundColor: 'var(--color-warm-ivory)',
+              fontWeight: 600,
+              color: 'var(--color-forest-green)',
+              minWidth: '150px'
+            }}
+          >
+            <option value="all">All Difficulties</option>
+            <option value="beginner">Beginner</option>
+            <option value="intermediate">Intermediate</option>
+          </select>
         </div>
 
-        {/* Category Filter Pills */}
-        <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', marginTop: '16px', paddingBottom: '4px' }}>
+        {/* Category Filter Navigation */}
+        <div
+          style={{
+            display: 'flex',
+            gap: '8px',
+            overflowX: 'auto',
+            marginTop: '16px',
+            paddingBottom: '4px',
+            WebkitOverflowScrolling: 'touch'
+          }}
+        >
           {ISL_CATEGORIES.map(cat => {
             const isActive = selectedCategory === cat.id;
             return (
@@ -105,10 +166,11 @@ export default function Signopedia({ speechHook, onPracticeSign = null }) {
                 onClick={() => setSelectedCategory(cat.id)}
                 style={{
                   fontSize: '0.8125rem',
-                  padding: '6px 16px',
+                  padding: '6px 14px',
                   borderRadius: 'var(--radius-pill)',
                   whiteSpace: 'nowrap',
-                  fontWeight: isActive ? 700 : 500
+                  fontWeight: isActive ? 700 : 500,
+                  flexShrink: 0
                 }}
               >
                 {cat.label}
@@ -118,18 +180,28 @@ export default function Signopedia({ speechHook, onPracticeSign = null }) {
         </div>
       </div>
 
-      {/* Signs Grid */}
+      {/* Signs Cards Grid */}
       {filteredSigns.length === 0 ? (
-        <div className="card" style={{ padding: '48px', textAlign: 'center', color: 'var(--text-muted)', borderRadius: 'var(--radius-lg)' }}>
-          <BookOpen size={44} color="var(--color-taupe)" style={{ opacity: 0.6, marginBottom: '12px' }} />
-          <h3 style={{ color: 'var(--color-forest-green)' }}>No signs found</h3>
-          <p style={{ fontSize: '0.875rem' }}>Try searching with a different term or resetting category filters.</p>
+        <div
+          className="card"
+          style={{
+            padding: '48px',
+            textAlign: 'center',
+            color: 'var(--text-muted)',
+            borderRadius: 'var(--radius-lg)',
+            border: '1.5px solid var(--color-beige)'
+          }}
+        >
+          <BookOpen size={40} color="var(--color-taupe)" style={{ opacity: 0.6, marginBottom: '12px' }} />
+          <h3 style={{ color: 'var(--color-forest-green)', marginBottom: '6px' }}>No matching signs found</h3>
+          <p style={{ fontSize: '0.875rem', margin: '0 0 16px' }}>
+            Try searching for another word or reset your filters to browse the complete library.
+          </p>
           <button
             className="btn btn-secondary btn-sm"
-            onClick={() => { setSearchQuery(''); setSelectedCategory('all'); }}
-            style={{ marginTop: '10px' }}
+            onClick={() => { setSearchQuery(''); setSelectedCategory('all'); setDifficultyFilter('all'); }}
           >
-            Clear Filters
+            Reset Filters
           </button>
         </div>
       ) : (
@@ -137,8 +209,8 @@ export default function Signopedia({ speechHook, onPracticeSign = null }) {
           className="signs-grid"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(290px, 1fr))',
-            gap: '20px'
+            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+            gap: '18px'
           }}
         >
           {filteredSigns.map(sign => (
@@ -153,17 +225,29 @@ export default function Signopedia({ speechHook, onPracticeSign = null }) {
                 flexDirection: 'column',
                 justifyContent: 'space-between',
                 borderRadius: 'var(--radius-md)',
-                border: '1.5px solid var(--color-beige)'
+                border: '1.5px solid var(--color-beige)',
+                backgroundColor: 'var(--color-soft-ivory)'
               }}
             >
               <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px' }}>
-                  <ISLGlossBadge
-                    gloss={sign.gloss}
-                    isTwoHanded={sign.twoHanded}
-                    difficulty={sign.difficulty}
-                    size="sm"
-                  />
+                {/* Top Row: Word & Listen Button */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+                  <div>
+                    <h3
+                      style={{
+                        margin: 0,
+                        fontSize: '1.3rem',
+                        color: 'var(--color-forest-green)',
+                        fontFamily: 'var(--font-serif)'
+                      }}
+                    >
+                      {sign.word}
+                    </h3>
+                    <div style={{ fontSize: '0.6875rem', fontFamily: 'var(--font-mono, monospace)', color: 'var(--color-taupe)', marginTop: '2px' }}>
+                      [{sign.gloss}] {sign.twoHanded ? '• 2-Handed' : ''}
+                    </div>
+                  </div>
+
                   <button
                     className="btn btn-secondary btn-icon"
                     onClick={(e) => {
@@ -171,30 +255,50 @@ export default function Signopedia({ speechHook, onPracticeSign = null }) {
                       speechHook.speak(sign.word);
                     }}
                     title="Pronounce word"
-                    style={{ width: '30px', height: '30px', padding: 0 }}
+                    style={{ width: '32px', height: '32px', flexShrink: 0 }}
+                    aria-label={`Pronounce ${sign.word}`}
                   >
-                    <Volume2 size={13} />
+                    <Volume2 size={14} color="var(--color-forest-green)" />
                   </button>
                 </div>
 
-                <h3 style={{ margin: '6px 0 3px', fontSize: '1.25rem', color: 'var(--color-forest-green)' }}>
-                  {sign.word}
-                </h3>
-                <p style={{ margin: 0, fontSize: '0.8125rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
+                {/* Meaning */}
+                <p style={{ margin: '8px 0 0', fontSize: '0.825rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
                   {sign.englishMeaning}
                 </p>
               </div>
 
-              <div style={{ marginTop: '16px', paddingTop: '12px', borderTop: '1px solid var(--color-beige)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', maxWidth: '190px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              {/* Bottom Tray: Movement Trajectory & View Action */}
+              <div
+                style={{
+                  marginTop: '16px',
+                  paddingTop: '12px',
+                  borderTop: '1px solid var(--color-beige)',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  gap: '10px'
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: '0.75rem',
+                    color: 'var(--color-taupe)',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    maxWidth: '170px'
+                  }}
+                  title={sign.movement}
+                >
                   {sign.movement}
                 </span>
 
                 <button
                   className="btn btn-forest btn-sm"
-                  style={{ fontSize: '0.75rem', padding: '4px 10px' }}
+                  style={{ fontSize: '0.75rem', padding: '5px 12px', borderRadius: 'var(--radius-pill)', flexShrink: 0 }}
                 >
-                  <Eye size={12} style={{ marginRight: '4px' }} /> View
+                  <Eye size={13} style={{ marginRight: '4px' }} /> View
                 </button>
               </div>
             </div>
@@ -202,7 +306,7 @@ export default function Signopedia({ speechHook, onPracticeSign = null }) {
         </div>
       )}
 
-      {/* Modal / Detail Drawer for Selected Sign */}
+      {/* Modal: Full Sign Demonstration & Guide */}
       {modalOpen && selectedSign && (
         <div
           className="modal-backdrop"
@@ -224,41 +328,78 @@ export default function Signopedia({ speechHook, onPracticeSign = null }) {
             onClick={(e) => e.stopPropagation()}
             style={{
               width: '100%',
-              maxWidth: '840px',
+              maxWidth: '820px',
               maxHeight: '90vh',
               overflowY: 'auto',
               padding: '28px',
               backgroundColor: 'var(--color-soft-ivory)',
-              borderRadius: 'var(--radius-lg)'
+              borderRadius: 'var(--radius-lg)',
+              border: '1.5px solid var(--color-beige)'
             }}
           >
             {/* Modal Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid var(--color-beige)', paddingBottom: '14px' }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '20px',
+                borderBottom: '1px solid var(--color-beige)',
+                paddingBottom: '14px'
+              }}
+            >
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <h2 style={{ margin: 0, fontSize: '1.65rem', color: 'var(--color-forest-green)' }}>
+                  <h2
+                    style={{
+                      margin: 0,
+                      fontSize: '1.75rem',
+                      color: 'var(--color-forest-green)',
+                      fontFamily: 'var(--font-serif)'
+                    }}
+                  >
                     {selectedSign.word}
                   </h2>
-                  <ISLGlossBadge
-                    gloss={selectedSign.gloss}
-                    isTwoHanded={selectedSign.twoHanded}
-                    difficulty={selectedSign.difficulty}
-                  />
+                  <span
+                    style={{
+                      fontFamily: 'var(--font-mono, monospace)',
+                      fontSize: '0.75rem',
+                      fontWeight: 700,
+                      backgroundColor: 'var(--color-beige)',
+                      color: 'var(--color-forest-green)',
+                      padding: '3px 8px',
+                      borderRadius: 'var(--radius-xs)'
+                    }}
+                  >
+                    [{selectedSign.gloss}]
+                  </span>
+                  {selectedSign.twoHanded && (
+                    <span className="badge badge-sage" style={{ fontSize: '0.6875rem' }}>
+                      Two-Handed
+                    </span>
+                  )}
+                  <span className="badge badge-beige" style={{ fontSize: '0.6875rem' }}>
+                    {selectedSign.difficulty}
+                  </span>
                 </div>
-                <span style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>{selectedSign.englishMeaning}</span>
+                <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)', marginTop: '4px' }}>
+                  {selectedSign.englishMeaning}
+                </div>
               </div>
 
               <button
                 className="btn btn-secondary btn-icon"
                 onClick={() => setModalOpen(false)}
-                style={{ width: '32px', height: '32px' }}
+                style={{ width: '34px', height: '34px' }}
+                aria-label="Close modal"
               >
-                ✕
+                <X size={16} />
               </button>
             </div>
 
-            {/* Modal Body: Demonstration + Anatomy Breakdown */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '24px' }}>
+            {/* Modal Body: Demonstration + Step Breakdown */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.25fr) minmax(0, 1fr)', gap: '22px' }} className="workbench-grid">
+              {/* Left: Animated Demonstration Player */}
               <div>
                 <ISLAvatarPlayer
                   tokens={previewTokens}
@@ -269,30 +410,58 @@ export default function Signopedia({ speechHook, onPracticeSign = null }) {
                 />
               </div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                <div style={{ padding: '14px', borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--color-warm-ivory)', border: '1px solid var(--color-beige)' }}>
+              {/* Right: Technical Sign Breakdown */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div
+                  style={{
+                    padding: '14px 16px',
+                    borderRadius: 'var(--radius-sm)',
+                    backgroundColor: 'var(--color-warm-ivory)',
+                    border: '1px solid var(--color-beige)'
+                  }}
+                >
                   <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-forest-green)', textTransform: 'uppercase', marginBottom: '4px' }}>
-                    Handshape Formulation
+                    Handshape
                   </div>
-                  <div style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--color-charcoal)' }}>{selectedSign.handshape}</div>
+                  <div style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--color-charcoal)' }}>
+                    {selectedSign.handshape}
+                  </div>
                 </div>
 
-                <div style={{ padding: '14px', borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--color-warm-ivory)', border: '1px solid var(--color-beige)' }}>
+                <div
+                  style={{
+                    padding: '14px 16px',
+                    borderRadius: 'var(--radius-sm)',
+                    backgroundColor: 'var(--color-warm-ivory)',
+                    border: '1px solid var(--color-beige)'
+                  }}
+                >
                   <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-forest-green)', textTransform: 'uppercase', marginBottom: '4px' }}>
                     Movement & Trajectory
                   </div>
-                  <div style={{ fontSize: '0.875rem', color: 'var(--color-charcoal)' }}>{selectedSign.movement}</div>
+                  <div style={{ fontSize: '0.85rem', color: 'var(--color-charcoal)' }}>
+                    {selectedSign.movement}
+                  </div>
                 </div>
 
-                <div style={{ padding: '14px', borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--color-warm-ivory)', border: '1px solid var(--color-beige)' }}>
+                <div
+                  style={{
+                    padding: '14px 16px',
+                    borderRadius: 'var(--radius-sm)',
+                    backgroundColor: 'var(--color-warm-ivory)',
+                    border: '1px solid var(--color-beige)'
+                  }}
+                >
                   <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-forest-green)', textTransform: 'uppercase', marginBottom: '4px' }}>
                     Facial Expression (Non-Manual Marker)
                   </div>
-                  <div style={{ fontSize: '0.875rem', color: 'var(--color-charcoal)' }}>{selectedSign.facialExpression}</div>
+                  <div style={{ fontSize: '0.85rem', color: 'var(--color-charcoal)' }}>
+                    {selectedSign.facialExpression}
+                  </div>
                 </div>
 
                 {/* Actions */}
-                <div style={{ display: 'flex', gap: '10px', marginTop: 'auto' }}>
+                <div style={{ display: 'flex', gap: '10px', marginTop: 'auto', paddingTop: '8px' }}>
                   <button
                     className="btn btn-primary"
                     onClick={() => {
@@ -301,14 +470,16 @@ export default function Signopedia({ speechHook, onPracticeSign = null }) {
                     }}
                     style={{ flex: 1, backgroundColor: 'var(--color-rust)', color: '#FFFDF8', fontWeight: 700 }}
                   >
-                    <Sparkles size={16} /> Practice in Webcam Mirror
+                    <Video size={16} /> Practice with Camera
                   </button>
                   <button
                     className="btn btn-secondary"
                     onClick={() => speechHook.speak(selectedSign.word)}
                     style={{ padding: '0 16px' }}
+                    title="Listen pronunciation"
+                    aria-label="Listen pronunciation"
                   >
-                    <Volume2 size={16} />
+                    <Volume2 size={16} color="var(--color-forest-green)" />
                   </button>
                 </div>
               </div>

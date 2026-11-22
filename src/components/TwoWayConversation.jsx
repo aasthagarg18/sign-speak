@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import {
-  MessageSquare, Volume2, Mic, Video, Send, Download, Sparkles, User, RefreshCw, Check
+  MessageSquare, Volume2, Mic, Video, Send, Download, Sparkles, User, RefreshCw
 } from 'lucide-react';
 import { SAMPLE_CONVERSATIONS } from '../data/sampleConversations';
 import { tokenizeTextToISL } from '../utils/islMatcher';
 import ISLAvatarPlayer from './ISLAvatarPlayer';
-import ISLGlossBadge from './ISLGlossBadge';
 
 export default function TwoWayConversation({ speechHook }) {
   const [activeScenarioId, setActiveScenarioId] = useState('clinic');
@@ -73,39 +72,51 @@ export default function TwoWayConversation({ speechHook }) {
 
   return (
     <div className="two-way-conversation-container" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-      {/* Top Scenario Switcher & Controls */}
+      {/* Top Scenario Switcher & Header Bar */}
       <div
         className="card"
         style={{
-          padding: '16px 22px',
+          padding: '16px 20px',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           flexWrap: 'wrap',
-          gap: '12px',
-          borderRadius: 'var(--radius-lg)'
+          gap: '14px',
+          borderRadius: 'var(--radius-lg)',
+          border: '1.5px solid var(--color-beige)'
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '0.8125rem', fontWeight: 700, color: 'var(--color-forest-green)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-            🌿 Real Life Scenarios:
-          </span>
-          {SAMPLE_CONVERSATIONS.map(sc => (
-            <button
-              key={sc.id}
-              className={`btn btn-sm ${activeScenarioId === sc.id ? 'btn-forest' : 'btn-secondary'}`}
-              onClick={() => handleScenarioChange(sc.id)}
-              style={{ fontSize: '0.75rem', padding: '6px 14px', borderRadius: 'var(--radius-pill)' }}
-            >
-              {sc.title}
-            </button>
-          ))}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <MessageSquare size={18} color="var(--color-forest-green)" />
+            <span style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--color-forest-green)' }}>
+              Conversation Scenario:
+            </span>
+          </div>
+
+          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+            {SAMPLE_CONVERSATIONS.map(sc => (
+              <button
+                key={sc.id}
+                className={`btn btn-sm ${activeScenarioId === sc.id ? 'btn-forest' : 'btn-secondary'}`}
+                onClick={() => handleScenarioChange(sc.id)}
+                style={{
+                  fontSize: '0.8125rem',
+                  padding: '6px 14px',
+                  borderRadius: 'var(--radius-pill)',
+                  fontWeight: activeScenarioId === sc.id ? 700 : 500
+                }}
+              >
+                {sc.title}
+              </button>
+            ))}
+          </div>
         </div>
 
         <button
           className="btn btn-secondary btn-sm"
           onClick={handleExportChat}
-          style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.75rem', padding: '6px 14px' }}
+          style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8125rem', padding: '6px 14px' }}
         >
           <Download size={14} /> Export Transcript (.txt)
         </button>
@@ -113,36 +124,43 @@ export default function TwoWayConversation({ speechHook }) {
 
       {/* Main 2-Way Layout */}
       <div className="workbench-grid">
-        {/* Left Column: Live Split Dialogue Stream */}
-        <div className="card" style={{ padding: '22px', display: 'flex', flexDirection: 'column', minHeight: '420px', maxHeight: '620px', borderRadius: 'var(--radius-lg)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '14px', borderBottom: '1px solid var(--color-beige)', paddingBottom: '12px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-              <div
-                style={{
-                  width: '36px',
-                  height: '36px',
-                  borderRadius: '10px',
-                  backgroundColor: 'rgba(38, 63, 50, 0.1)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'var(--color-forest-green)'
-                }}
-              >
-                <MessageSquare size={18} />
+        {/* Left Column: Clean Natural Conversation Feed */}
+        <div
+          className="card"
+          style={{
+            padding: '20px',
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: '480px',
+            maxHeight: '660px',
+            borderRadius: 'var(--radius-lg)',
+            border: '1.5px solid var(--color-beige)'
+          }}
+        >
+          {/* Conversation Stream Header */}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: '14px',
+              paddingBottom: '12px',
+              borderBottom: '1px solid var(--color-beige)'
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8125rem' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--color-forest-green)' }} />
+                <span style={{ fontWeight: 600, color: 'var(--color-forest-green)' }}>Deaf Signer</span>
               </div>
-              <div>
-                <h3 style={{ margin: 0, fontSize: '1.15rem', color: 'var(--color-forest-green)' }}>
-                  Bilingual Dialogue Stream
-                </h3>
-                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                  Indian Sign Language ⇄ Spoken Speech Bridge
-                </span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8125rem' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: 'var(--color-rust)' }} />
+                <span style={{ fontWeight: 600, color: 'var(--color-rust)' }}>Hearing Companion</span>
               </div>
             </div>
 
-            <span className="badge badge-sage">
-              {messages.length} Messages
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+              {messages.length} messages
             </span>
           </div>
 
@@ -152,13 +170,10 @@ export default function TwoWayConversation({ speechHook }) {
             style={{
               flex: 1,
               overflowY: 'auto',
-              padding: '12px',
+              padding: '14px 10px',
               display: 'flex',
               flexDirection: 'column',
-              gap: '14px',
-              backgroundColor: 'var(--color-warm-ivory)',
-              borderRadius: 'var(--radius-md)',
-              border: '1px solid var(--color-beige)',
+              gap: '16px',
               marginBottom: '16px'
             }}
           >
@@ -178,35 +193,77 @@ export default function TwoWayConversation({ speechHook }) {
                     cursor: 'pointer'
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px', alignSelf: isSigner ? 'flex-start' : 'flex-end' }}>
-                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: isSigner ? 'var(--color-forest-green)' : 'var(--color-rust)' }}>
-                      {isSigner ? '🤟 ' : '🗣️ '} {msg.senderName}
+                  {/* Sender metadata */}
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      marginBottom: '4px',
+                      padding: '0 4px',
+                      alignSelf: isSigner ? 'flex-start' : 'flex-end'
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: '0.75rem',
+                        fontWeight: 700,
+                        color: isSigner ? 'var(--color-forest-green)' : 'var(--color-rust)'
+                      }}
+                    >
+                      {isSigner ? '🤟 Deaf Signer' : '🗣️ Hearing Companion'}
                     </span>
-                    <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>{msg.timestamp}</span>
+                    <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>
+                      {msg.timestamp}
+                    </span>
                   </div>
 
+                  {/* Message Bubble */}
                   <div
                     style={{
                       padding: '12px 16px',
                       borderRadius: isSigner ? '4px 16px 16px 16px' : '16px 4px 16px 16px',
-                      backgroundColor: isSigner ? 'var(--color-forest-green)' : 'var(--color-terracotta)',
-                      color: '#FFFDF8',
-                      boxShadow: isSelected ? '0 0 0 2px var(--color-warm-ivory), 0 0 0 4px var(--color-rust)' : 'var(--shadow-sm)',
+                      backgroundColor: isSigner ? 'var(--color-forest-green)' : 'var(--color-soft-ivory)',
+                      color: isSigner ? '#FFFDF8' : 'var(--color-charcoal)',
+                      border: isSigner ? 'none' : '1.5px solid var(--color-beige)',
+                      boxShadow: isSelected
+                        ? '0 0 0 2px var(--color-warm-ivory), 0 0 0 4px var(--color-rust)'
+                        : 'var(--shadow-sm)',
                       transition: 'all var(--transition-fast)'
                     }}
                   >
-                    <div style={{ fontSize: '0.95rem', fontWeight: 500, lineHeight: 1.5 }}>
+                    <div style={{ fontSize: '0.925rem', lineHeight: 1.55 }}>
                       {msg.text}
                     </div>
 
                     {msg.signGloss && (
-                      <div style={{ marginTop: '6px', paddingTop: '6px', borderTop: '1px solid rgba(255,253,248,0.2)', fontSize: '0.6875rem', fontFamily: 'var(--font-mono, monospace)', opacity: 0.9 }}>
+                      <div
+                        style={{
+                          marginTop: '6px',
+                          paddingTop: '6px',
+                          borderTop: isSigner ? '1px solid rgba(255, 253, 248, 0.2)' : '1px solid var(--color-beige)',
+                          fontSize: '0.6875rem',
+                          fontFamily: 'var(--font-mono, monospace)',
+                          opacity: isSigner ? 0.9 : 0.75,
+                          color: isSigner ? '#FFFDF8' : 'var(--color-forest-green)'
+                        }}
+                      >
                         ISL: [{msg.signGloss}]
                       </div>
                     )}
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '3px', alignSelf: isSigner ? 'flex-start' : 'flex-end' }}>
+                  {/* Actions underneath bubble */}
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px',
+                      marginTop: '3px',
+                      padding: '0 4px',
+                      alignSelf: isSigner ? 'flex-start' : 'flex-end'
+                    }}
+                  >
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
@@ -221,63 +278,92 @@ export default function TwoWayConversation({ speechHook }) {
                         display: 'flex',
                         alignItems: 'center',
                         gap: '4px',
-                        padding: '2px 4px'
+                        padding: '2px 0'
                       }}
+                      title="Vocalize sentence"
                     >
-                      <Volume2 size={12} /> Play Audio
+                      <Volume2 size={12} /> Listen
                     </button>
-                    <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>• Click for ISL demonstration</span>
+
+                    {isSelected && (
+                      <span style={{ fontSize: '0.6875rem', color: 'var(--color-rust)', fontWeight: 600 }}>
+                        • Showing on avatar
+                      </span>
+                    )}
                   </div>
                 </div>
               );
             })}
           </div>
 
-          {/* Dual Input Trays */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', borderTop: '1px solid var(--color-beige)', paddingTop: '12px' }}>
-            {/* Signer Side */}
+          {/* Inputs Composer Section */}
+          <div
+            style={{
+              borderTop: '1.5px solid var(--color-beige)',
+              paddingTop: '14px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '10px'
+            }}
+          >
+            {/* Signer Input Row */}
             <div>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-forest-green)', marginBottom: '5px' }}>
-                <Video size={13} /> Signer Output (Webcam Sign to Voice):
-              </label>
-              <div style={{ display: 'flex', gap: '6px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                <label style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-forest-green)', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <Video size={13} /> Signer Message (Sign to Speech):
+                </label>
+              </div>
+              <div style={{ display: 'flex', gap: '8px' }}>
                 <input
                   type="text"
                   className="form-control"
                   value={signerInput}
                   onChange={(e) => setSignerInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleAddSignerMessage()}
-                  placeholder="Signer signs message..."
-                  style={{ fontSize: '0.8125rem', padding: '8px 12px' }}
+                  placeholder="Type or sign a message (will vocalize)..."
+                  style={{ fontSize: '0.85rem', padding: '9px 12px', borderRadius: 'var(--radius-pill)' }}
                 />
-                <button className="btn btn-forest btn-sm" onClick={handleAddSignerMessage} title="Send and vocalize">
-                  <Send size={14} />
+                <button
+                  className="btn btn-forest btn-sm"
+                  onClick={handleAddSignerMessage}
+                  style={{ padding: '0 16px', borderRadius: 'var(--radius-pill)', flexShrink: 0 }}
+                  title="Send message and speak aloud"
+                >
+                  <Send size={14} /> Send
                 </button>
               </div>
             </div>
 
-            {/* Hearing Speaker Side */}
+            {/* Hearing Speaker Input Row */}
             <div>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-terracotta)', marginBottom: '5px' }}>
-                <Mic size={13} /> Speaker Input (Spoken Voice to ISL):
-              </label>
-              <div style={{ display: 'flex', gap: '6px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                <label style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-rust)', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <Mic size={13} /> Companion Message (Speech to Sign):
+                </label>
+              </div>
+              <div style={{ display: 'flex', gap: '8px' }}>
                 <input
                   type="text"
                   className="form-control"
                   value={speakerInput}
                   onChange={(e) => setSpeakerInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleAddSpeakerMessage()}
-                  placeholder="Hearing person speaks..."
-                  style={{ fontSize: '0.8125rem', padding: '8px 12px' }}
+                  placeholder="Type spoken response (will animate ISL)..."
+                  style={{ fontSize: '0.85rem', padding: '9px 12px', borderRadius: 'var(--radius-pill)' }}
                 />
                 <button
                   className="btn btn-primary btn-sm"
                   onClick={handleAddSpeakerMessage}
-                  style={{ backgroundColor: 'var(--color-terracotta)', color: '#FFFDF8' }}
-                  title="Send and animate ISL"
+                  style={{
+                    backgroundColor: 'var(--color-rust)',
+                    color: '#FFFDF8',
+                    padding: '0 16px',
+                    borderRadius: 'var(--radius-pill)',
+                    flexShrink: 0
+                  }}
+                  title="Send response and demonstrate in sign"
                 >
-                  <Send size={14} />
+                  <Send size={14} /> Send
                 </button>
               </div>
             </div>
@@ -285,16 +371,23 @@ export default function TwoWayConversation({ speechHook }) {
         </div>
 
         {/* Right Column: Selected Message ISL Demonstration Visualizer */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-          <div className="card" style={{ padding: '16px 20px', borderRadius: 'var(--radius-md)' }}>
-            <span style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-forest-green)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-              Active Demonstration Target:
-            </span>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          <div
+            className="card"
+            style={{
+              padding: '16px 20px',
+              borderRadius: 'var(--radius-md)',
+              border: '1.5px solid var(--color-beige)'
+            }}
+          >
+            <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-forest-green)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              Active Sign Demonstration
+            </div>
             <div style={{ fontSize: '1.1rem', fontWeight: 700, marginTop: '4px', color: 'var(--color-charcoal)' }}>
               "{selectedDemoMessage?.text}"
             </div>
-            <div style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
-              Spoken by {selectedDemoMessage?.senderName} ({selectedDemoMessage?.role})
+            <div style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', marginTop: '2px' }}>
+              {selectedDemoMessage?.senderName} ({selectedDemoMessage?.role})
             </div>
           </div>
 

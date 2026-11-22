@@ -3,7 +3,7 @@ import {
   Sparkles, Camera, Volume2, Eye, History, ShieldAlert,
   MessageSquare, BookOpen, Award, Menu, X, LayoutDashboard, Home, Users
 } from 'lucide-react';
-import { BrandLeafHand, BotanicalBranch } from './BotanicalDecorations';
+import { BrandLeafHand } from './BotanicalDecorations';
 import SignToSpeechControls from './SignToSpeechControls';
 
 export default function Navbar({
@@ -46,20 +46,22 @@ export default function Navbar({
           gap: '16px'
         }}
       >
-        {/* Brand Logo & Editorial Wordmark */}
+        {/* Brand Logo & Wordmark */}
         <div
           style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}
           onClick={() => handleSelectTab('landing')}
         >
-          <BrandLeafHand size={38} />
+          <div style={{ borderRadius: '12px', border: '1.5px solid rgba(255, 253, 248, 0.4)', display: 'flex' }}>
+            <BrandLeafHand size={38} />
+          </div>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
               <span
                 style={{
                   fontFamily: 'var(--font-serif)',
                   fontSize: '1.45rem',
                   fontWeight: 800,
-                  color: 'var(--color-forest-green)',
+                  color: '#FFFDF8',
                   letterSpacing: '-0.02em',
                   lineHeight: 1
                 }}
@@ -67,13 +69,21 @@ export default function Navbar({
                 SignSpeak
               </span>
               <span
-                className="badge badge-forest"
-                style={{ fontSize: '0.6875rem', padding: '2px 6px', fontWeight: 700 }}
+                style={{
+                  fontSize: '0.6875rem',
+                  padding: '2px 7px',
+                  fontWeight: 700,
+                  borderRadius: 'var(--radius-pill)',
+                  backgroundColor: 'rgba(255, 253, 248, 0.22)',
+                  color: '#FFFDF8',
+                  border: '1px solid rgba(255, 253, 248, 0.35)',
+                  lineHeight: 1
+                }}
               >
                 ISL AI
               </span>
             </div>
-            <span style={{ fontSize: '0.6875rem', color: 'var(--color-taupe)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+            <span style={{ fontSize: '0.6875rem', color: '#E8DDCA', letterSpacing: '0.04em', textTransform: 'uppercase', display: 'block', marginTop: '3px' }}>
               Indian Sign Language Platform
             </span>
           </div>
@@ -91,7 +101,7 @@ export default function Navbar({
                 className={`nav-link ${isActive ? 'active' : ''}`}
                 style={
                   item.isAlert && !isActive
-                    ? { color: 'var(--color-rust)', fontWeight: 600 }
+                    ? { backgroundColor: 'rgba(255, 253, 248, 0.12)', color: '#FFFDF8', fontWeight: 600 }
                     : {}
                 }
               >
@@ -101,10 +111,10 @@ export default function Navbar({
                   <span
                     style={{
                       fontSize: '0.625rem',
-                      padding: '1px 5px',
+                      padding: '1px 6px',
                       borderRadius: 'var(--radius-pill)',
-                      backgroundColor: isActive ? 'rgba(255, 253, 248, 0.25)' : 'var(--color-beige)',
-                      color: isActive ? '#FFFDF8' : 'var(--color-forest-green)',
+                      backgroundColor: isActive ? 'rgba(166, 83, 56, 0.14)' : 'rgba(255, 253, 248, 0.25)',
+                      color: isActive ? 'var(--color-rust)' : '#FFFDF8',
                       fontWeight: 700
                     }}
                   >
@@ -121,27 +131,31 @@ export default function Navbar({
           {/* Primary CTA (if on landing page, quick action) */}
           {activeTab === 'landing' ? (
             <button
-              className="btn btn-primary"
+              className="btn"
               onClick={() => handleSelectTab('dashboard')}
               style={{
-                backgroundColor: 'var(--color-rust)',
-                color: '#FFFDF8',
+                backgroundColor: '#FFFDF8',
+                color: 'var(--color-rust)',
                 padding: '8px 18px',
                 fontWeight: 700,
-                fontSize: '0.8125rem'
+                fontSize: '0.8125rem',
+                border: 'none',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)'
               }}
             >
               Enter Workspace
             </button>
           ) : (
             <button
-              className="btn btn-secondary btn-sm"
+              className="btn btn-sm"
               onClick={() => handleSelectTab('translator')}
               style={{
                 fontSize: '0.8125rem',
                 fontWeight: 600,
                 padding: '7px 14px',
-                borderColor: 'var(--color-taupe)'
+                backgroundColor: 'rgba(255, 253, 248, 0.16)',
+                color: '#FFFDF8',
+                border: '1px solid rgba(255, 253, 248, 0.3)'
               }}
             >
               <Camera size={14} /> Quick Sign
@@ -151,12 +165,13 @@ export default function Navbar({
           {/* Voice Settings Popover Trigger */}
           <div style={{ position: 'relative' }}>
             <button
-              className="btn btn-secondary btn-icon"
+              className="btn btn-icon navbar-icon-btn"
               onClick={() => setShowVoiceSettings(!showVoiceSettings)}
               title="Voice output & speech settings"
               style={{ width: '36px', height: '36px' }}
+              aria-label="Voice settings"
             >
-              <Volume2 size={16} color="var(--color-forest-green)" />
+              <Volume2 size={16} color="#FFFDF8" />
             </button>
 
             {showVoiceSettings && (
@@ -178,38 +193,41 @@ export default function Navbar({
 
           {/* Accessibility Settings */}
           <button
-            className="btn btn-secondary btn-icon"
+            className="btn btn-icon navbar-icon-btn"
             onClick={onOpenA11y}
             title="Accessibility Control Center (WCAG AAA)"
             style={{ width: '36px', height: '36px' }}
+            aria-label="Accessibility settings"
           >
-            <Eye size={16} color="var(--color-forest-green)" />
+            <Eye size={16} color="#FFFDF8" />
           </button>
 
           {/* History Drawer Trigger */}
           <button
-            className="btn btn-secondary btn-icon"
+            className="btn btn-icon navbar-icon-btn"
             onClick={onOpenHistory}
             title="Saved Activity History"
             style={{ width: '36px', height: '36px', position: 'relative' }}
+            aria-label="Saved history"
           >
-            <History size={16} color="var(--color-forest-green)" />
+            <History size={16} color="#FFFDF8" />
             {historyCount > 0 && (
               <span
                 style={{
                   position: 'absolute',
                   top: '-3px',
                   right: '-3px',
-                  width: '17px',
-                  height: '17px',
+                  width: '18px',
+                  height: '18px',
                   borderRadius: '50%',
-                  backgroundColor: 'var(--color-rust)',
+                  backgroundColor: 'var(--color-deep-forest)',
                   color: '#FFFDF8',
                   fontSize: '0.625rem',
                   fontWeight: 800,
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'center'
+                  justifyContent: 'center',
+                  border: '1.5px solid var(--color-rust)'
                 }}
               >
                 {historyCount}
@@ -219,12 +237,12 @@ export default function Navbar({
 
           {/* Mobile Menu Hamburger Toggle */}
           <button
-            className="btn btn-secondary btn-icon nav-mobile-toggle"
+            className="btn btn-icon navbar-icon-btn nav-mobile-toggle"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             style={{ display: 'none', width: '36px', height: '36px' }}
             aria-label="Toggle mobile menu"
           >
-            {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+            {mobileMenuOpen ? <X size={18} color="#FFFDF8" /> : <Menu size={18} color="#FFFDF8" />}
           </button>
         </div>
       </div>
@@ -234,11 +252,12 @@ export default function Navbar({
         <div
           style={{
             backgroundColor: 'var(--color-soft-ivory)',
-            borderBottom: '1px solid var(--color-beige)',
+            borderBottom: '2px solid var(--color-rust)',
+            boxShadow: 'var(--shadow-md)',
             padding: '16px 20px',
             display: 'flex',
             flexDirection: 'column',
-            gap: '8px'
+            gap: '6px'
           }}
         >
           {navItems.map((item) => {
@@ -248,15 +267,25 @@ export default function Navbar({
               <button
                 key={item.id}
                 onClick={() => handleSelectTab(item.id)}
-                className={`nav-link ${isActive ? 'active' : ''}`}
-                style={{
-                  width: '100%',
-                  justifyContent: 'flex-start',
-                  padding: '10px 14px'
-                }}
+                className={`nav-link-mobile ${isActive ? 'active' : ''}`}
               >
                 <Icon size={18} />
                 <span style={{ fontSize: '0.95rem' }}>{item.label}</span>
+                {item.badge && (
+                  <span
+                    style={{
+                      marginLeft: 'auto',
+                      fontSize: '0.6875rem',
+                      padding: '2px 8px',
+                      borderRadius: 'var(--radius-pill)',
+                      backgroundColor: isActive ? 'rgba(255, 255, 255, 0.25)' : 'var(--color-beige)',
+                      color: isActive ? '#FFFDF8' : 'var(--color-forest-green)',
+                      fontWeight: 700
+                    }}
+                  >
+                    {item.badge}
+                  </span>
+                )}
               </button>
             );
           })}
