@@ -2,9 +2,28 @@ import React, { useEffect, useRef } from 'react';
 import { HAND_CONNECTIONS, generateHandLandmarks, drawLandmarks } from '../utils/landmarkSimulator';
 
 /**
+ * Static styling constants to avoid recreating string/color objects on every draw
+ */
+const COLOR_LINE_HAND1 = 'rgba(38, 63, 50, 0.92)';    // Forest Green
+const COLOR_LINE_HAND2 = 'rgba(196, 119, 92, 0.92)';   // Terracotta
+const COLOR_BOUNDS_HAND1 = 'rgba(38, 63, 50, 0.8)';
+const COLOR_BOUNDS_HAND2 = 'rgba(196, 119, 92, 0.8)';
+const COLOR_TIP = '#A65338';                           // Rust
+const COLOR_WRIST = '#C4775C';                         // Terracotta
+const COLOR_JOINT = '#A8B49A';                         // Sage
+const COLOR_BORDER = '#FFFDF8';                        // Soft Ivory
+const COLOR_TAG_BG = '#1C3027';                        // Deep Forest
+const COLOR_TAG_TEXT = '#F8F5ED';                      // Warm Ivory
+const FONT_TAG = '600 11px "DM Sans", system-ui, -apple-system, sans-serif';
+const DASH_PATTERN = [5, 5];
+const TIP_INDICES = new Set([4, 8, 12, 16, 20]);
+
+/**
  * HandLandmarkCanvas — Vintage Botanical Style
- * Renders 21 skeletal joints and bone connections using earthy forest green,
- * terracotta, sage, and rust lines.
+ * - Renders 21 skeletal joints and bone connections using earthy forest green, terracotta, sage, and rust.
+ * - Optimized: Eliminates continuous requestAnimationFrame loop in Live Tracking mode.
+ * - Renders on-demand when live landmark frames arrive.
+ * - Uses continuous loop only in Simulation mode for smooth wave/gesture movement.
  */
 export default function HandLandmarkCanvas({
   liveLandmarks = null,
@@ -21,135 +40,168 @@ export default function HandLandmarkCanvas({
   const animFrameRef = useRef(null);
   const timeRef = useRef(0);
 
+  // Render on-demand in live mode, or via RAF in simulation mode
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-    const render = () => {
+    // Helper: draw live MediaPipe tracking frame
+    const drawLiveFrame = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      if (!showSkeleton) {
-        animFrameRef.current = requestAnimationFrame(render);
+      if (!showSkeleton || !liveLandmarks || liveLandmarks.length === 0) {
         return;
       }
 
-      // 1. REAL LIVE HAND TRACKING (MediaPipe Results)
-      if (liveLandmarks && liveLandmarks.length > 0) {
-        liveLandmarks.forEach((handPoints, handIdx) => {
-          // Convert normalized (0-1) coordinates to canvas pixel space
-          // Note: x is mirrored (1 - x) to match webcam scaleX(-1) mirror view!
-          const pixelPoints = handPoints.map((pt, idx) => ({
-            id: idx,
-            x: (1 - pt.x) * canvas.width,
-            y: pt.y * canvas.height,
-            z: pt.z || 0
-          }));
+      const canvasWidth = canvas.width;
+      const canvasHeight = canvas.height;
 
-          // Draw skeleton lines (Dominant: Forest Green, Secondary: Terracotta)
-          ctx.save();
-          ctx.strokeStyle = handIdx === 0 ? 'rgba(38, 63, 50, 0.92)' : 'rgba(196, 119, 92, 0.92)';
-          ctx.lineWidth = 3.2;
-          ctx.lineCap = 'round';
-          ctx.lineJoin = 'round';
+      for (let handIdx = 0; handIdx < liveLandmarks.length; handIdx++) {
+        const handPoints = liveLandmarks[handIdx];
+        if (!handPoints || handPoints.length === 0) continue;
 
-          HAND_CONNECTIONS.forEach(([startIdx, endIdx]) => {
-            const p1 = pixelPoints[startIdx];
-            const p2 = pixelPoints[endIdx];
-            if (p1 && p2) {
-              ctx.beginPath();
-              ctx.moveTo(p1.x, p1.y);
-              ctx.lineTo(p2.x, p2.y);
-              ctx.stroke();
-            }
-          });
+        // Convert normalized coordinates to mirrored pixel space
+        // Note: x is mirrored (1 - pt.x) to match video scaleX(-1) preview!
+        const pixelPoints = new Array(handPoints.length);
+        let minX = canvasWidth;
+        let maxX = 0;
+        let minY = canvasHeight;
+        let maxY = 0;
 
-          // Draw Joints (Earthy Botanical: Sage knuckles, Rust fingertips, Terracotta wrist)
-          pixelPoints.forEach((pt, idx) => {
-            const isTip = [4, 8, 12, 16, 20].includes(idx);
-            const isWrist = idx === 0;
+        for (let idx = 0; idx < handPoints.length; idx++) {
+          const pt = handPoints[idx];
+          const px = (1 - pt.x) * canvasWidth;
+          const py = pt.y * canvasHeight;
 
-            ctx.beginPath();
-            ctx.arc(pt.x, pt.y, isWrist ? 6.5 : isTip ? 5.5 : 4.5, 0, Math.PI * 2);
-            ctx.fillStyle = isTip ? '#A65338' : isWrist ? '#C4775C' : '#A8B49A';
-            ctx.fill();
+          pixelPoints[idx] = { x: px, y: py };
 
-            // Soft ivory border around joints
-            ctx.strokeStyle = '#FFFDF8';
-            ctx.lineWidth = 1.5;
-            ctx.stroke();
-          });
+          if (px < minX) minX = px;
+          if (px > maxX) maxX = px;
+          if (py < minY) minY = py;
+          if (py > maxY) maxY = py;
+        }
 
-          // Draw Bounding Box around detected hand
-          let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity;
-          pixelPoints.forEach(p => {
-            if (p.x < minX) minX = p.x;
-            if (p.x > maxX) maxX = p.x;
-            if (p.y < minY) minY = p.y;
-            if (p.y > maxY) maxY = p.y;
-          });
+        ctx.save();
 
-          const pad = 14;
-          minX = Math.max(0, minX - pad);
-          maxX = Math.min(canvas.width, maxX + pad);
-          minY = Math.max(0, minY - pad);
-          maxY = Math.min(canvas.height, maxY + pad);
+        // 1. Draw Skeleton Lines
+        ctx.strokeStyle = handIdx === 0 ? COLOR_LINE_HAND1 : COLOR_LINE_HAND2;
+        ctx.lineWidth = 3.2;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
 
-          ctx.strokeStyle = handIdx === 0 ? 'rgba(38, 63, 50, 0.8)' : 'rgba(196, 119, 92, 0.8)';
+        ctx.beginPath();
+        for (let i = 0; i < HAND_CONNECTIONS.length; i++) {
+          const [startIdx, endIdx] = HAND_CONNECTIONS[i];
+          const p1 = pixelPoints[startIdx];
+          const p2 = pixelPoints[endIdx];
+          if (p1 && p2) {
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+          }
+        }
+        ctx.stroke();
+
+        // 2. Draw Joints (Earthy Botanical)
+        for (let idx = 0; idx < pixelPoints.length; idx++) {
+          const pt = pixelPoints[idx];
+          const isTip = TIP_INDICES.has(idx);
+          const isWrist = idx === 0;
+
+          ctx.beginPath();
+          ctx.arc(pt.x, pt.y, isWrist ? 6.5 : isTip ? 5.5 : 4.5, 0, Math.PI * 2);
+          ctx.fillStyle = isTip ? COLOR_TIP : isWrist ? COLOR_WRIST : COLOR_JOINT;
+          ctx.fill();
+
+          ctx.strokeStyle = COLOR_BORDER;
           ctx.lineWidth = 1.5;
-          ctx.setLineDash([5, 5]);
-          ctx.strokeRect(minX, minY, maxX - minX, maxY - minY);
-          ctx.setLineDash([]);
+          ctx.stroke();
+        }
 
-          // Header tag over bounding box (Deep Forest + Ivory text)
-          const tag = handIdx === 0
-            ? `${gestureLabel || 'Hand'} • ${Math.round(confidence)}%`
-            : `Hand 2 • ${Math.round(confidence - 1)}%`;
+        // 3. Draw Bounding Box around detected hand
+        const pad = 14;
+        minX = Math.max(0, minX - pad);
+        maxX = Math.min(canvasWidth, maxX + pad);
+        minY = Math.max(0, minY - pad);
+        maxY = Math.min(canvasHeight, maxY + pad);
 
-          ctx.fillStyle = '#1C3027';
-          const textWidth = ctx.measureText(tag).width + 16;
-          ctx.fillRect(minX, Math.max(0, minY - 24), textWidth, 22);
+        ctx.strokeStyle = handIdx === 0 ? COLOR_BOUNDS_HAND1 : COLOR_BOUNDS_HAND2;
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash(DASH_PATTERN);
+        ctx.strokeRect(minX, minY, maxX - minX, maxY - minY);
+        ctx.setLineDash([]);
 
-          ctx.fillStyle = '#F8F5ED';
-          ctx.font = '600 11px "DM Sans", system-ui, sans-serif';
-          ctx.fillText(tag, minX + 8, Math.max(14, minY - 8));
+        // 4. Header tag over bounding box
+        const tag = handIdx === 0
+          ? `${gestureLabel || 'Hand'} • ${Math.round(confidence)}%`
+          : `Hand 2 • ${Math.round(confidence - 1)}%`;
 
-          ctx.restore();
-        });
+        ctx.font = FONT_TAG;
+        const textWidth = ctx.measureText(tag).width + 16;
+        ctx.fillStyle = COLOR_TAG_BG;
+        ctx.fillRect(minX, Math.max(0, minY - 24), textWidth, 22);
+
+        ctx.fillStyle = COLOR_TAG_TEXT;
+        ctx.fillText(tag, minX + 8, Math.max(14, minY - 8));
+
+        ctx.restore();
       }
-      // 2. SIMULATION MODE (Fallback when not using real live tracking or no hand yet)
-      else if (!isLiveMode) {
+    };
+
+    // Case 1: LIVE MODE — Render once per new frame (no continuous 60fps loop)
+    if (isLiveMode) {
+      if (animFrameRef.current) {
+        cancelAnimationFrame(animFrameRef.current);
+        animFrameRef.current = null;
+      }
+      drawLiveFrame();
+      return;
+    }
+
+    // Case 2: SIMULATION MODE — Run continuous animation for gesture motion
+    let isRunning = true;
+    const simRenderLoop = () => {
+      if (!isRunning) return;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (showSkeleton) {
         timeRef.current += 0.04;
         const primaryLandmarks = generateHandLandmarks(activeGesture, timeRef.current, false);
         drawLandmarks(ctx, primaryLandmarks, {
-          jointColor: '#A8B49A',
-          tipColor: '#A65338',
-          lineColor: 'rgba(38, 63, 50, 0.85)',
+          jointColor: COLOR_JOINT,
+          tipColor: COLOR_TIP,
+          lineColor: COLOR_LINE_HAND1,
           label: `Simulated: ${Math.round(confidence)}%`
         });
 
         if (isTwoHanded) {
           const secondaryLandmarks = generateHandLandmarks(activeGesture, timeRef.current + 0.5, true);
           drawLandmarks(ctx, secondaryLandmarks, {
-            jointColor: '#C4775C',
-            tipColor: '#A65338',
-            lineColor: 'rgba(196, 119, 92, 0.85)',
-            label: `Hand L (Sim)`
+            jointColor: COLOR_WRIST,
+            tipColor: COLOR_TIP,
+            lineColor: COLOR_LINE_HAND2,
+            label: 'Hand L (Sim)'
           });
         }
       }
 
-      animFrameRef.current = requestAnimationFrame(render);
-    };
-
-    render();
-
-    return () => {
-      if (animFrameRef.current) {
-        cancelAnimationFrame(animFrameRef.current);
+      if (isRunning) {
+        animFrameRef.current = requestAnimationFrame(simRenderLoop);
       }
     };
-  }, [liveLandmarks, activeGesture, gestureLabel, confidence, isTwoHanded, showSkeleton, isLiveMode]);
+
+    animFrameRef.current = requestAnimationFrame(simRenderLoop);
+
+    return () => {
+      isRunning = false;
+      if (animFrameRef.current) {
+        cancelAnimationFrame(animFrameRef.current);
+        animFrameRef.current = null;
+      }
+    };
+  }, [liveLandmarks, activeGesture, gestureLabel, confidence, isTwoHanded, showSkeleton, isLiveMode, width, height]);
 
   return (
     <canvas

@@ -1,54 +1,64 @@
 import { ISL_DICTIONARY } from '../data/islDictionary';
 
 /**
- * Real-Time Computer Vision ISL Gesture Classifier
- * Processes 21 3D hand landmarks from MediaPipe Hands.
- * Evaluates finger kinematics, joint distances, pinch states, orientations,
- * and dual-hand spatial relationships for Indian Sign Language.
+ * Geometric Landmark Heuristic Classifier for Indian Sign Language (ISL) Gestures
+ * Evaluates 21 3D hand landmarks from MediaPipe Hands.
+ * Note: Uses deterministic kinematic and geometric heuristics based on joint distances,
+ * angles, finger extension states, and dual-hand spatial proximity.
  */
 
-// Helper: 2D Euclidean distance
-const dist = (p1, p2) => Math.hypot(p1.x - p2.x, p1.y - p2.y);
+// Pre-indexed dictionary cache for O(1) sign resolution
+const DICTIONARY_MAP = new Map();
+for (let i = 0; i < ISL_DICTIONARY.length; i++) {
+  const item = ISL_DICTIONARY[i];
+  if (item.id) DICTIONARY_MAP.set(item.id.toLowerCase(), item);
+  if (item.word) DICTIONARY_MAP.set(item.word.toLowerCase(), item);
+  if (item.gloss) DICTIONARY_MAP.set(item.gloss.toLowerCase(), item);
+}
 
-// Helper: 3D Euclidean distance
-const dist3D = (p1, p2) => Math.hypot(p1.x - p2.x, p1.y - p2.y, (p1.z || 0) - (p2.z || 0));
+function findDictionarySign(idOrWord) {
+  if (!idOrWord) return null;
+  return DICTIONARY_MAP.get(idOrWord.toLowerCase()) || null;
+}
+
+// Fast 2D Euclidean distance (inlined sqrt avoiding extra object creation)
+const dist = (p1, p2) => {
+  const dx = p1.x - p2.x;
+  const dy = p1.y - p2.y;
+  return Math.sqrt(dx * dx + dy * dy);
+};
 
 /**
- * Classify single hand landmarks
+ * Analyze kinematics of a single 21-point hand landmark set
  */
 export function analyzeHandKinematics(landmarks) {
   if (!landmarks || landmarks.length < 21) return null;
 
   const wrist = landmarks[0];
-  const thumbCmc = landmarks[1];
   const thumbMcp = landmarks[2];
   const thumbIp = landmarks[3];
   const thumbTip = landmarks[4];
 
   const indexMcp = landmarks[5];
   const indexPip = landmarks[6];
-  const indexDip = landmarks[7];
   const indexTip = landmarks[8];
 
   const middleMcp = landmarks[9];
   const middlePip = landmarks[10];
-  const middleDip = landmarks[11];
   const middleTip = landmarks[12];
 
   const ringMcp = landmarks[13];
   const ringPip = landmarks[14];
-  const ringDip = landmarks[15];
   const ringTip = landmarks[16];
 
   const pinkyMcp = landmarks[17];
   const pinkyPip = landmarks[18];
-  const pinkyDip = landmarks[19];
   const pinkyTip = landmarks[20];
 
-  // Palm reference scale
+  // Palm reference scale (wrist to middle MCP)
   const palmScale = dist(wrist, middleMcp);
 
-  // Finger extension heuristics based on wrist distance ratios and joint progression
+  // Finger extension heuristics based on joint progression and wrist distances
   const isIndexExtended =
     dist(indexTip, wrist) > dist(indexPip, wrist) * 1.15 &&
     dist(indexTip, indexMcp) > dist(indexPip, indexMcp) * 1.1;
@@ -79,8 +89,11 @@ export function analyzeHandKinematics(landmarks) {
   // Pinch detection: Thumb tip near Index tip
   const isThumbIndexPinch = dist(thumbTip, indexTip) < palmScale * 0.38;
 
-  // Count total extended fingers
-  const extendedCount = [isIndexExtended, isMiddleExtended, isRingExtended, isPinkyExtended].filter(Boolean).length;
+  // Count total extended non-thumb fingers
+  const extendedCount = (isIndexExtended ? 1 : 0) +
+    (isMiddleExtended ? 1 : 0) +
+    (isRingExtended ? 1 : 0) +
+    (isPinkyExtended ? 1 : 0);
 
   return {
     isThumbExtended,
@@ -194,7 +207,6 @@ export function classifyISLGesture(multiHandLandmarks) {
 
   // 2. PEACE / VICTORY / V -> "Alphabet V" / "Number 2"
   if (k.isIndexExtended && k.isMiddleExtended && !k.isRingExtended && !k.isPinkyExtended) {
-    const spread = dist(k.indexTip, k.middleTip);
     return {
       sign: findDictionarySign('alpha-v') || findDictionarySign('num-2') || { word: 'Alphabet V', gloss: 'V', id: 'alpha-v' },
       confidence: 97.8,
@@ -204,7 +216,7 @@ export function classifyISLGesture(multiHandLandmarks) {
     };
   }
 
-  // 3. POINTING INDEX -> "Number 1" / "Where"
+  // 3. POINTING INDEX -> "Number 1" / "Where" / "Alphabet L"
   if (k.isIndexExtended && !k.isMiddleExtended && !k.isRingExtended && !k.isPinkyExtended) {
     // If thumb is also extended at 90 deg -> Alphabet L
     if (k.isThumbExtended && dist(k.thumbTip, k.indexTip) > k.palmScale * 0.7) {
@@ -310,15 +322,4 @@ export function classifyISLGesture(multiHandLandmarks) {
     twoHanded: false,
     description: 'Analyzing hand joint geometry...'
   };
-}
-
-function findDictionarySign(idOrWord) {
-  if (!idOrWord) return null;
-  const lower = idOrWord.toLowerCase();
-  return (
-    ISL_DICTIONARY.find(d => d.id === lower) ||
-    ISL_DICTIONARY.find(d => d.word.toLowerCase() === lower) ||
-    ISL_DICTIONARY.find(d => d.gloss.toLowerCase() === lower) ||
-    null
-  );
 }
